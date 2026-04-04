@@ -32,15 +32,12 @@ class AuthController extends Controller
         return redirect('/login')->with('success', 'Đăng ký thành công');
     }
 
-    // ================= LOGIN =================
 
-    // Hiển thị form login
     public function showLogin()
     {
         return view('login');
     }
 
-    // Xử lý login
     public function login(Request $request)
     {
         $request->validate([
@@ -52,7 +49,6 @@ class AuthController extends Controller
 
         $key = 'login-' . $request->email . '-' . $request->ip();
 
-        // Check số lần login
         if (RateLimiter::tooManyAttempts($key, 3)) {
             return back()->withErrors([
                 'email' => 'Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau.'
@@ -72,7 +68,7 @@ class AuthController extends Controller
         ]);
     }
 
-    // ================= LOGOUT =================
+
 
     public function logout()
     {
