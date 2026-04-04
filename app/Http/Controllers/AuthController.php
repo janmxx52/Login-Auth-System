@@ -1,0 +1,82 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+
+class AuthController extends Controller
+{
+    public function showRegister()
+    {
+        return view('register');
+    }
+
+        public function register(Request $request)
+    {
+                $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed'
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        return redirect('/login')->with('success', 'Đăng ký thành công');
+    }
+
+    // ================= LOGIN =================
+
+    // Hiển thị form login
+    public function showLogin()
+    {
+        return view('login');
+    }
+
+    // Xử lý login
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        $key = 'login-' . $request->email . '-' . $request->ip();
+
+        // Check số lần login
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            return back()->withErrors([
+                'email' => 'Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau.'
+            ]);
+        }
+
+        if (Auth::attempt($credentials)) {
+            RateLimiter::clear($key);
+
+            return redirect()->intended('/dashboard');
+        }
+
+        RateLimiter::hit($key, 60);
+
+        return back()->withErrors([
+            'email' => 'Sai email hoặc mật khẩu'
+        ]);
+    }
+
+    // ================= LOGOUT =================
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/login');
+    }
+}
