@@ -15,18 +15,18 @@
 ### Acceptance Tests
 1) Happy Path  
    - Given tôi là người dùng mới và truy cập trang đăng ký  
-   - When tôi nhập họ tên hợp lệ, email hợp lệ, mật khẩu hợp lệ và submit form  
+   - When tôi nhập họ tên hợp lệ, email hợp lệ, mật khẩu hợp lệ và đăng ký
    - Then tôi được tạo tài khoản thành công
 
 2) Unhappy Path – Email đã tồn tại  
    - Given tôi nhập email đã được đăng ký  
-   - When tôi submit form  
+   - When tôi đăng ký  
    - Then hệ thống thông báo rõ ràng email đã tồn tại  
    - And trỏ đến trường email để tôi nhập lại
 
 3) Unhappy Path – Xác nhận mật khẩu không hợp lệ (không trùng nhau)  
    - Given tôi bỏ trống mật khẩu hoặc nhập sai thông tin  
-   - When tôi submit  
+   - When tôi đăng ký  
    - Then hệ thống hiển thị lỗi “mật khẩu không trùng khớp”  
    - And trỏ đến trường mật khẩu để tôi nhập lại
 
@@ -104,7 +104,7 @@
 
 ---
 
-## Sơ đồ tuần tự (Markdown)
+## Sơ đồ tuần tự
 
 ### Register - Happy Path
 ```text
