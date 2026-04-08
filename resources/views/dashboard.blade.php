@@ -14,8 +14,9 @@
         <div class="title">
             <div class="pill">
                 <span class="accent-dot"></span>
+                <span>{{ $user->role === 'admin' ? 'Welcome Admin' : 'Welcome User' }}</span>
             </div>
-            <h1 class="headline">Xin chào, {{ $user->name }} 👋</h1>
+            <h1 class="headline">Xin chào, {{ $user->name }}</h1>
             <p class="subline">Bạn đang ở bảng điều khiển. Quản lý tài khoản và kiểm tra trạng thái truy cập tại đây.</p>
         </div>
         <form method="POST" action="/logout">

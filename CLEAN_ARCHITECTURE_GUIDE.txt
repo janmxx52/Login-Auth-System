@@ -1,0 +1,188 @@
+
+
+// 1. FRAMEWORKS & DRIVERS (Ngoài cùng)
+// ════════════════════════════════════════════════════════════
+//  ┌─────────────────────────────────────────────────────────┐
+//  │                  HTTP/Browser (Client)                  │
+//  └──────────────────────────┬──────────────────────────────┘
+//                              │
+//  ┌─────────────────────────────────────────────────────────┐
+//  │          Routes (web.php) - Định tuyến                  │
+//  │  GET /register  → AuthController@showRegister           │
+//  │  POST /register → AuthController@register               │
+//  │  GET /login     → AuthController@showLogin              │
+//  │  POST /login    → AuthController@login                  │
+//  │  POST /logout   → AuthController@logout                 │
+//  │  GET /dashboard → DashboardController@index             │
+//  └──────────────────────────┬──────────────────────────────┘
+//                              │
+//  ┌─────────────────────────────────────────────────────────┐
+//  │         Views (Blade Templates) - Hiển thị              │
+//  │  - register.blade.php                                   │
+//  │  - login.blade.php                                      │
+//  │  - dashboard.blade.php                                  │
+//  └──────────────────────────┬──────────────────────────────┘
+//                              │
+//  ┌─────────────────────────────────────────────────────────┐
+//  │       Database (MySQL) - Lưu trữ dữ liệu                │
+//  │  - users table (id, name, email, password, role)        │
+//  │  - sessions table (dùng cho auth)                       │
+//  └─────────────────────────────────────────────────────────┘
+
+
+// 2. INTERFACE ADAPTERS (LAYER 2)
+// ════════════════════════════════════════════════════════════
+
+// ┌─ CONTROLLERS ─────────────────────────────────────────┐
+// │  AuthController                                       │
+// │  ├─ showRegister(Request)                             │
+// │  ├─ register(Request)  → gọi RegisterUser usecase    │
+// │  ├─ showLogin(Request)                                │
+// │  ├─ login(Request)     → gọi LoginUser usecase       │
+// │  └─ logout()           → gọi LogoutUser usecase      │
+// │                                                       │
+// │  DashboardController                                  │
+// │  └─ index()            → render dashboard view       │
+// └───────────────────────────────────────────────────────┘
+
+// ┌─ GATEWAYS (Repositories) ─────────────────────────────┐
+// │  UserRepository (Eloquent User Model)                 │
+// │  ├─ create(name, email, password)                     │
+// │  ├─ findByEmail(email)                                │
+// │  └─ find(id)                                          │
+// │                                                       │
+// │  AuthGateway (Authentication)                         │
+// │  ├─ attempt(email, password) → bool                   │
+// │  ├─ logout()                                          │
+// │  └─ check() → bool                                    │
+// │                                                       │
+// │  RateLimiterGateway                                   │
+// │  ├─ tooManyAttempts(key, limit) → bool               │
+// │  ├─ hit(key, seconds)                                 │
+// │  └─ clear(key)                                        │
+// │                                                       │
+// │  HashGateway                                          │
+// │  ├─ make(password) → hashed                           │
+// │  └─ check(password, hash) → bool                      │
+// └───────────────────────────────────────────────────────┘
+
+
+// 3. USE CASES / APPLICATION BUSINESS RULES
+// ════════════════════════════════════════════════════════════
+
+// ┌─ RegisterUserUseCase ────────────────────────────────┐
+// │  Input:                                               │
+// │    - name: string                                     │
+// │    - email: string                                    │
+// │    - password: string                                 │
+// │                                                       │
+// │  Process:                                             │
+// │    1. Validate input data                             │
+// │    2. Check if email already exists                   │
+// │    3. Hash password                                   │
+// │    4. Create new User entity                          │
+// │    5. Save via UserRepository                         │
+// │                                                       │
+// │  Output:                                              │
+// │    - success: bool                                    │
+// │    - user: User entity (if success)                   │
+// │    - errors: array (if validation fails)              │
+// └───────────────────────────────────────────────────────┘
+
+// ┌─ LoginUserUseCase ───────────────────────────────────┐
+// │  Input:                                               │
+// │    - email: string                                    │
+// │    - password: string                                 │
+// │    - ip_address: string                               │
+// │                                                       │
+// │  Process:                                             │
+// │    1. Check rate limiter (max 3 attempts)             │
+// │    2. Retrieve user by email                          │
+// │    3. Verify password hash                            │
+// │    4. Create session/token                            │
+// │    5. Log successful login                            │
+// │                                                       │
+// │  Output:                                              │
+// │    - authenticated: bool                              │
+// │    - user: User entity (if success)                   │
+// │    - errors: array (if fails)                         │
+// └───────────────────────────────────────────────────────┘
+
+// ┌─ LogoutUserUseCase ──────────────────────────────────┐
+// │  Input:                                               │
+// │    - user_id: int                                     │
+// │                                                       │
+// │  Process:                                             │
+// │    1. Destroy session/token                           │
+// │    2. Clear auth state                                │
+// │                                                       │
+// │  Output:                                              │
+// │    - logged_out: bool                                 │
+// └───────────────────────────────────────────────────────┘
+
+
+// 4. ENTITIES / DOMAIN MODELS (Core)
+// ════════════════════════════════════════════════════════════
+
+// ┌─ User Entity ────────────────────────────────────────┐
+// │                                                       │
+// │  Properties:                                          │
+// │    - id: int (primary key)                            │
+// │    - name: string                                     │
+// │    - email: string (unique, indexed)                  │
+// │    - password: string (hashed with bcrypt)            │
+// │    - role: string (default: 'user')                   │
+// │    - email_verified_at: datetime | null               │
+// │    - created_at: datetime                             │
+// │    - updated_at: datetime                             │
+// │                                                       │
+// │  Methods:                                             │
+// │    - getEmail(): string                               │
+// │    - getName(): string                                │
+// │    - getId(): int                                     │
+// │    - getRole(): string                                │
+// │                                                       │
+// │  Business Rules:                                      │
+// │    - Email must be unique                             │
+// │    - Password must be hashed when saved               │
+// │    - Email validation required                        │
+// │                                                       │
+// └───────────────────────────────────────────────────────┘
+
+
+// DEPENDENCY FLOW (từ ngoài vào trong)
+// ════════════════════════════════════════════════════════════
+
+Browser HTTP Request
+    ↓
+Routes (định tuyến URL)
+    ↓
+Controllers (nhận request)
+    ├─ Gọi Use Cases
+    ├─ Gọi Gateways (Repositories)
+    └─ Render Views
+    ↓
+Use Cases (logic nghiệp vụ)
+    ├─ Sử dụng Entities
+    └─ Thao tác qua Gateways
+    ↓
+Gateways (Repositories)
+    └─ Truy cập Database
+    ↓
+Database (lưu trữ)
+
+
+// QUY TẮC CLEAN ARCHITECTURE
+// ════════════════════════════════════════════════════════════
+
+✓ Dependencies chỉ trỏ VỀ IN (từ ngoài vào trong)
+✓ Use Cases không biết về Controllers
+✓ Entities độc lập, không phụ thuộc lớp nào
+✓ Database/Framework có thể thay thế mà không ảnh hưởng Use Cases
+✓ Dễ test: Mock Gateways và test Use Cases riêng
+
+✗ KHÔNG được: Entities import Controllers
+✗ KHÔNG được: Use Cases import Controllers
+✗ KHÔNG được: Database code trong Entities
+
+

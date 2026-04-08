@@ -29,12 +29,10 @@ class AuthTest extends TestCase
 
     public function test_register_with_existing_email_shows_error(): void
     {
-        // Tạo user với email đã tồn tại
         $existingUser = User::factory()->create([
             'email' => 'existing@example.com',
         ]);
 
-        // Cố gắng đăng ký với email đó
         $response = $this->from('/register')->post('/register', [
             'name' => 'Another User',
             'email' => 'existing@example.com',
@@ -42,15 +40,12 @@ class AuthTest extends TestCase
             'password_confirmation' => 'secret123',
         ]);
 
-        // Kiểm tra redirect về trang register và có lỗi email
         $response->assertRedirect('/register');
         $response->assertSessionHasErrors(['email']);
-        
-        // Kiểm tra trong database vẫn chỉ có 1 user với email này
         $this->assertDatabaseCount('users', 1);
         $this->assertDatabaseHas('users', [
             'email' => 'existing@example.com',
-            'name' => $existingUser->name, 
+            'name' => $existingUser->name,
         ]);
     }
 
@@ -83,6 +78,22 @@ class AuthTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
+    public function test_admin_login_redirects_to_admin(): void
+    {
+        $admin = User::factory()->create([
+            'password' => Hash::make('secret123'),
+            'role' => 'admin',
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => $admin->email,
+            'password' => 'secret123',
+        ]);
+
+        $response->assertRedirect('/admin');
+        $this->assertAuthenticatedAs($admin);
+    }
+
     public function test_login_with_invalid_password_shows_error(): void
     {
         $user = User::factory()->create([
@@ -105,7 +116,7 @@ class AuthTest extends TestCase
             'password' => Hash::make('secret123'),
         ]);
 
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             $response = $this->post('/login', [
                 'email' => $user->email,
                 'password' => 'wrongpass',
@@ -113,11 +124,10 @@ class AuthTest extends TestCase
         }
 
         $response->assertRedirect();
-        $response->assertSessionHasErrors();
-        
+        $response->assertSessionHasErrors(['email']);
         $this->assertStringContainsString(
             'Bạn đã nhập sai quá nhiều lần',
-            session('errors')->first()
+            session('errors')->first('email')
         );
 
         $this->assertGuest();

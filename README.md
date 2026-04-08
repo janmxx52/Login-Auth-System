@@ -132,6 +132,8 @@ Người dùng          Form đăng ký          Auth API                CSDL
     |<-------------------|                    |                    |
 ```
 
+chưa có control để API gọi đến
+
 ### Register - Unhappy Path: Email đã tồn tại
 ```text
 Người dùng          Form đăng ký          Auth API                CSDL
@@ -209,6 +211,8 @@ Người dùng          Form đăng nhập         Auth API                CSDL
     | Hiển thị lỗi đăng nhập                 |                    |
     |<-------------------|                    |                    |
 ```
+
+
 
 ### Login - Unhappy Path: Nhập sai nhiều lần
 ```text

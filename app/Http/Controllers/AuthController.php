@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function showRegister()
     {
         if (Auth::check()) {
-            return redirect('/');
+            return redirect('/login');
         }
 
         return view('register');
@@ -62,8 +62,13 @@ class AuthController extends Controller
         }
 
         if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
             RateLimiter::clear($key);
-            return redirect()->intended('/dashboard');
+
+            $user = Auth::user();
+            $target = $user->role === 'admin' ? '/admin' : '/dashboard';
+
+            return redirect()->intended($target);
         }
 
         RateLimiter::hit($key, 60);

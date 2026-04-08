@@ -1,0 +1,163 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram id="auth_architecture" name="Clean Architecture - Auth System">
+    <mxGraphModel dx="2306" dy="1474" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="browser" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFB3B3;strokeColor=#8B0000;" value="&amp;nbsp;Browser&lt;br&gt;HTTP Requests" vertex="1">
+          <mxGeometry height="100" width="150" x="120" y="-281" as="geometry" />
+        </mxCell>
+        <mxCell id="routes" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFB3B3;strokeColor=#8B0000;fontSize=11;" value="&amp;nbsp;Web Routes&lt;br&gt;(web.php)&lt;br&gt;────────&lt;br&gt;GET /register&lt;br&gt;POST /register&lt;br&gt;GET /login&lt;br&gt;POST /login&lt;br&gt;POST /logout&lt;br&gt;GET /dashboard" vertex="1">
+          <mxGeometry height="160" width="180" x="-110" y="-150" as="geometry" />
+        </mxCell>
+        <mxCell id="database" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFB3B3;strokeColor=#8B0000;fontSize=11;" value="Database&lt;br&gt;(MySQL)&lt;br&gt;────────&lt;br&gt;users table&lt;br&gt;• id&lt;br&gt;• name&lt;br&gt;• email&lt;br&gt;• password&lt;br&gt;• role" vertex="1">
+          <mxGeometry height="160" width="180" x="-360" y="870" as="geometry" />
+        </mxCell>
+        <mxCell id="views" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFB3B3;strokeColor=#8B0000;fontSize=11;" value="Views&lt;br&gt;(Blade Templates)&lt;br&gt;────────&lt;br&gt;• register.blade.php&lt;br&gt;• login.blade.php&lt;br&gt;• dashboard.blade.php" vertex="1">
+          <mxGeometry height="130" width="180" x="430" y="-370" as="geometry" />
+        </mxCell>
+        <mxCell id="controllers_group" parent="1" style="fillColor=none;strokeColor=#FF9800;strokeWidth=1;fontSize=11;" value="Controllers" vertex="1">
+          <mxGeometry height="250" width="400" x="-80" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_controller" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F57F17;fontSize=11;" value="AuthController&#xa;────────&#xa;• showRegister()&#xa;• register(Request)&#xa;• showLogin()&#xa;• login(Request)&#xa;• logout()" vertex="1">
+          <mxGeometry height="140" width="170" x="-70" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="dashboard_controller" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F57F17;fontSize=11;" value="DashboardController&#xa;────────&#xa;• index()" vertex="1">
+          <mxGeometry height="100" width="150" x="160" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="response_formatter" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F57F17;fontSize=11;" value="Presenters&#xa;────────&#xa;• JSON Responses&#xa;• View Data&#xa;• Error Messages" vertex="1">
+          <mxGeometry height="110" width="170" x="570" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="gateways_group" parent="1" style="fillColor=none;strokeColor=#FF9800;strokeWidth=1;fontSize=11;" value="Gateways" vertex="1">
+          <mxGeometry height="250" width="380" x="-390" y="474.06" as="geometry" />
+        </mxCell>
+        <mxCell id="user_repository" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F57F17;fontSize=11;" value="UserRepository&#xa;(Eloquent Model)&#xa;────────&#xa;• create()&#xa;• findByEmail()&#xa;• all()" vertex="1">
+          <mxGeometry height="110" width="150" x="-385" y="479.06" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_gateway" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F57F17;fontSize=11;" value="AuthGateway&#xa;────────&#xa;• attempt()&#xa;• logout()&#xa;• check()" vertex="1">
+          <mxGeometry height="110" width="140" x="-190" y="474.06" as="geometry" />
+        </mxCell>
+        <mxCell id="rate_limiter_gateway" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F57F17;fontSize=11;" value="RateLimiterGateway&#xa;────────&#xa;• tooManyAttempts()&#xa;• hit()&#xa;• clear()" vertex="1">
+          <mxGeometry height="110" width="150" x="-170" y="604.06" as="geometry" />
+        </mxCell>
+        <mxCell id="hash_gateway" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F57F17;fontSize=11;" value="HashGateway&#xa;────────&#xa;• make()&#xa;• check()" vertex="1">
+          <mxGeometry height="100" width="140" x="-375" y="604.06" as="geometry" />
+        </mxCell>
+        <mxCell id="usecases_ring" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#4CAF50;strokeWidth=2;fontSize=12;fontStyle=bold;dashed=1;" value="Use Cases (BusinessLogic)" vertex="1">
+          <mxGeometry height="240" width="640" x="320" y="469.99999999999994" as="geometry" />
+        </mxCell>
+        <mxCell id="register_usecase" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=10;" value="RegisterUser&#xa;────────&#xa;Input: name, email, password&#xa;Process:&#xa;1. Validate data&#xa;2. Hash password&#xa;3. Save user&#xa;Output: User created" vertex="1">
+          <mxGeometry height="130" width="190" x="340" y="534.06" as="geometry" />
+        </mxCell>
+        <mxCell id="login_usecase" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=10;" value="LoginUser&#xa;────────&#xa;Input: email, password&#xa;Process:&#xa;1. Check rate limit&#xa;2. Verify credentials&#xa;3. Create session&#xa;Output: Authenticated" vertex="1">
+          <mxGeometry height="130" width="190" x="545" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="logout_usecase" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=10;" value="LogoutUser&#xa;────────&#xa;Input: User ID&#xa;Process:&#xa;1. Destroy session&#xa;2. Clear auth token&#xa;Output: Logged out" vertex="1">
+          <mxGeometry height="130" width="190" x="750" y="525" as="geometry" />
+        </mxCell>
+        <mxCell id="entities_ring" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2196F3;strokeWidth=2;fontSize=12;fontStyle=bold;dashed=1;" value="Entities (Domain Models)" vertex="1">
+          <mxGeometry height="200" width="300" x="450" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="user_entity" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#0D47A1;fontSize=10;" value="User Entity&lt;br&gt;────────&lt;br&gt;Properties:&lt;br&gt;• id: int\\n• name: string\\n• email: string (unique)\\n• password: string (hashed)\\n• role: string\\n• created_at\\n• updated_at\\n────────&lt;br&gt;Methods:\\n• getId()\\n• getEmail()\\n• verifyPassword()" vertex="1">
+          <mxGeometry height="160" width="270" x="465" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="conn1" edge="1" parent="1" source="browser" target="routes">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="120" as="sourcePoint" />
+            <mxPoint x="320" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn2" edge="1" parent="1" source="routes" style="entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="auth_controller">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="230" as="sourcePoint" />
+            <mxPoint x="120" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn3" edge="1" parent="1" source="routes" target="dashboard_controller">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="230" as="sourcePoint" />
+            <mxPoint x="550" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn4" edge="1" parent="1" source="auth_controller" target="register_usecase">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="385" y="380" as="sourcePoint" />
+            <mxPoint x="495" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn5" edge="1" parent="1" source="auth_controller" target="login_usecase">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="380" as="sourcePoint" />
+            <mxPoint x="700" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn6" edge="1" parent="1" source="register_usecase" target="user_entity">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="495" y="450" as="sourcePoint" />
+            <mxPoint x="650" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn7" edge="1" parent="1" source="login_usecase" target="user_entity">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="745" y="450" as="sourcePoint" />
+            <mxPoint x="700" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn8" edge="1" parent="1" source="auth_controller" target="user_repository">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="310" as="sourcePoint" />
+            <mxPoint x="770" y="295" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn9" edge="1" parent="1" source="auth_controller" target="auth_gateway">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="300" as="sourcePoint" />
+            <mxPoint x="950" y="295" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn10" edge="1" parent="1" source="auth_controller" target="rate_limiter_gateway">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="280" as="sourcePoint" />
+            <mxPoint x="1120" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn11" edge="1" parent="1" source="user_repository" style="entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="database">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-30" y="514" as="sourcePoint" />
+            <mxPoint x="149.99999999999955" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn12" edge="1" parent="1" source="auth_gateway">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-60" y="494.06" as="sourcePoint" />
+            <mxPoint x="-50.000000000000455" y="469.9975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn13" edge="1" parent="1" source="auth_controller" target="views">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="380" as="sourcePoint" />
+            <mxPoint y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn14" edge="1" parent="1" source="dashboard_controller" target="views">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="340" as="sourcePoint" />
+            <mxPoint x="610" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="conn15" edge="1" parent="1" source="views" target="browser">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="430" as="sourcePoint" />
+            <mxPoint x="195" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RRMYol3Zql0l_r2e-vNt-1" edge="1" parent="1" source="auth_controller" style="entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="logout_usecase">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="279" as="sourcePoint" />
+            <mxPoint x="550" y="536" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
