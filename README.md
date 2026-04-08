@@ -212,8 +212,6 @@ Người dùng          Form đăng nhập         Auth API                CSDL
     |<-------------------|                    |                    |
 ```
 
-
-
 ### Login - Unhappy Path: Nhập sai nhiều lần
 ```text
 Người dùng          Form đăng nhập         Auth API                CSDL
@@ -235,3 +233,134 @@ Người dùng          Form đăng nhập         Auth API                CSDL
     | Hiển thị khóa tạm thời và hướng dẫn     |                    |
     |<-------------------|                    |                    |
 ```
+
+
+
+### Sơ đồ tuần tự (text) — Phân quyền & Admin
+Login – Happy Path (phân nhánh role)
+
+Người dùng          Form đăng nhập         AuthController        Session/Auth        CSDL
+    |                    |                    |                      |                  |
+    | Truy cập /login     |                    |                      |                  |
+    |------------------->|                    |                      |                  |
+    | Nhập email, mật khẩu|                    |                      |                  |
+    |------------------->|                    |                      |                  |
+    |                    | Gửi yêu cầu login  |                      |                  |
+    |                    |------------------->|                      |                  |
+    |                    |                    | Kiểm tra throttle    |                  |
+    |                    |                    |--------------------->|                  |
+    |                    |                    |<---------------------| ok               |
+    |                    |                    | Lấy user theo email  |                  |
+    |                    |                    |--------------------->|                  |
+    |                    |                    |<---------------------| user             |
+    |                    |                    | Auth::attempt        |                  |
+    |                    |                    |--------------------->|                  |
+    |                    |                    |<---------------------| success          |
+    |                    |                    | regenerate session   |                  |
+    |                    |                    |                      |                  |
+    |                    | Nhận redirect      |                      |                  |
+    |                    |<-------------------|                      |                  |
+    | Chuyển trang:      |                    |                      |                  |
+    | - nếu role=admin -> /admin                                   |                  |
+    | - nếu role=user  -> /dashboard                               |                  |
+
+
+
+Login – Sai mật khẩu
+Người dùng          Form đăng nhập         AuthController        Session/Auth        CSDL
+    |                    |                    |                      |                  |
+    | Nhập email đúng nhưng mật khẩu sai     |                      |                  |
+    |------------------->|                    |                      |                  |
+    |                    | Gửi yêu cầu login  |                      |                  |
+    |                    |------------------->|                      |                  |
+    |                    |                    | Kiểm tra throttle    |                  |
+    |                    |                    |--------------------->|                  |
+    |                    |                    |<---------------------| ok               |
+    |                    |                    | Lấy user theo email  |                  |
+    |                    |                    |--------------------->|                  |
+    |                    |                    |<---------------------| user             |
+    |                    |                    | Auth::               |                  |
+    |                    |                    |--------------------->|                  |
+    |                    |                    |<---------------------| fail             |
+    |                    |                    | RateLimiter::hit     |                  |
+    |                    | Nhận lỗi/email     |                      |                  |
+    |                    |<-------------------|                      |                  |
+    | Hiển thị lỗi đăng nhập (email)          |                      |                  |
+    |<-------------------|                    |                      |                  |
+
+
+Admin – Danh sách user
+
+Admin               Browser               Web routes           CheckRole           AdminUserController        DB
+    |                   |                      |                    |                       |                  |
+    | Mở /admin/users   |                      |                    |                       |                  |
+    |------------------>|                      |                    |                       |                  |
+    |                   | Resolve route        |                    |                       |                  |
+    |                   |--------------------->|                    |                       |                  |
+    |                   |                      | role:admin?        |                       |                  |
+    |                   |                      |------------------->|                       |                  |
+    |                   |                      |<-------------------| allow/403             |                  |
+    |                   |                      | call index()       |                       |                  |
+    |                   |                      |------------------------------------------->|                  |
+    |                   |                      |                       select * from users  |----------------->|
+    |                   |                      |                                            |<-----------------|
+    |                   |                      |<-------------------------------------------| render list      |
+    | Nhận bảng user    |                      |                    |                       |                  |
+    |<------------------|                      |                    |                       |                  |
+
+
+Admin – Tạo user
+
+Admin               Browser               Web routes           CheckRole           AdminUserController        DB
+    |                   |                      |                    |                       |                  |
+    | Submit POST /admin/users (name,email,pwd,role)                                            |
+    |------------------>|                      |                    |                       |                  |
+    |                   |--------------------->|                    |                       |                  |
+    |                   |                      | role:admin?        |                       |                  |
+    |                   |                      |------------------->|                       |                  |
+    |                   |                      |<-------------------| allow/403             |                  |
+    |                   |                      | call store()       |                       |                  |
+    |                   |                      |------------------------------------------->|                  |
+    |                   |                      |                       INSERT user          |----------------->|
+    |                   |                      |                                            |<-----------------|
+    |                   |                      |<-------------------------------------------| redirect /admin/users |
+    | Nhận redirect + flash                    |                    |                       |                  |
+    |<------------------|                      |                    |                       |                  |
+
+
+Admin – Cập nhật user (không đổi mật khẩu nếu để trống)
+
+Admin               Browser               Web routes           CheckRole           AdminUserController        DB
+    |                   |                      |                    |                       |                  |
+    | PUT /admin/users/{id} (name,email,role,password optional)                           |
+    |------------------>|                      |                    |                       |                  |
+    |                   |--------------------->|                    |                       |                  |
+    |                   |                      | role:admin?        |                       |                  |
+    |                   |                      |------------------->|                       |                  |
+    |                   |                      |<-------------------| allow/403             |                  |
+    |                   |                      | call update()      |                       |                  |
+    |                   |                      |-------------------------------------------->|                  |
+    |                   |                      |                       UPDATE user           |---------------->|
+    |                   |                      |                                              |<---------------|
+    |                   |                      |<---------------------------------------------| redirect /admin/users |
+    | Nhận redirect     |                      |                    |                       |                  |
+    |<------------------|                      |                    |                       |                  |
+
+
+Admin – Xóa user (chặn tự xóa)
+Admin               Browser               Web routes           CheckRole           AdminUserController        DB
+    |                   |                      |                    |                       |                  |
+    | DELETE /admin/users/{id}                 |                    |                       |                  |
+    |------------------>|                      |                    |                       |                  |
+    |                   |--------------------->|                    |                       |                  |
+    |                   |                      | role:admin?        |                       |                  |
+    |                   |                      |------------------->|                       |                  |
+    |                   |                      |<-------------------| allow/403             |                  |
+    |                   |                      | call destroy()     |                       |                  |
+    |                   |                      |-------------------------------------------->|                  |
+    |                   |                      |   if id == current admin -> block           |                  |
+    |                   |                      |   else DELETE user                         |---------------->|
+    |                   |                      |                                              |<---------------|
+    |                   |                      |<---------------------------------------------| redirect + status/error |
+    | Nhận redirect     |                      |                    |                       |                  |
+    |<------------------|                      |                    |                       |                  |
