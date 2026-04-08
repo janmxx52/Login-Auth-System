@@ -7,35 +7,35 @@
 
 ---
 
-## USER STORY 1 — REGISTER (Đăng ký tài khoản)
+## USER STORY 1 - REGISTER (Đăng ký tài khoản)
 **As**: người dùng mới  
 **I want**: đăng ký tài khoản nhanh chóng, dễ dàng  
 **So that**: tôi có thể bắt đầu sử dụng dịch vụ ngay mà không bị gián đoạn
 
 ### Acceptance Tests
-1) Happy Path  
+1. Happy Path  
    - Given tôi là người dùng mới và truy cập trang đăng ký  
-   - When tôi nhập họ tên hợp lệ, email hợp lệ, mật khẩu hợp lệ và đăng ký
+   - When tôi nhập họ tên hợp lệ, email hợp lệ, mật khẩu hợp lệ và đăng ký  
    - Then tôi được tạo tài khoản thành công
 
-2) Unhappy Path – Email đã tồn tại  
+2. Unhappy Path - Email đã tồn tại  
    - Given tôi nhập email đã được đăng ký  
    - When tôi đăng ký  
    - Then hệ thống thông báo rõ ràng email đã tồn tại  
    - And trỏ đến trường email để tôi nhập lại
 
-3) Unhappy Path – Xác nhận mật khẩu không hợp lệ (không trùng nhau)  
+3. Unhappy Path - Xác nhận mật khẩu không hợp lệ (không trùng nhau)  
    - Given tôi bỏ trống mật khẩu hoặc nhập sai thông tin  
    - When tôi đăng ký  
-   - Then hệ thống hiển thị lỗi “mật khẩu không trùng khớp”  
+   - Then hệ thống hiển thị lỗi "mật khẩu không trùng khớp"  
    - And trỏ đến trường mật khẩu để tôi nhập lại
 
 ### Luồng màn hình
 1. Mở trang `Đăng ký`.
 2. Nhập Họ tên, Email, Mật khẩu, Xác nhận mật khẩu.
 3. Bấm `Đăng ký`.
-4a. Hợp lệ → tạo tài khoản, chuyển tới trang login
-4b. Không hợp lệ → hiển thị lỗi inline tại trường sai, focus vào trường sai.
+4a. Hợp lệ -> tạo tài khoản, chuyển tới trang login  
+4b. Không hợp lệ -> hiển thị lỗi inline tại trường sai, focus vào trường sai.
 
 ### Quy tắc nhập liệu
 - Họ tên: không rỗng, tối thiểu 2 ký tự.
@@ -43,31 +43,31 @@
 - Mật khẩu: tối thiểu 8 ký tự, gồm chữ và số (tùy policy); xác nhận phải trùng.
 
 ### UI/UX gợi ý
-- Nút chính: “Đăng ký” (primary).  
-- Link phụ: “Đã có tài khoản? Đăng nhập”.  
+- Nút chính: "Đăng ký" (primary).  
+- Link phụ: "Đã có tài khoản? Đăng nhập".  
 - Hiển thị spinner trên nút khi submit.  
 - Thông báo lỗi rõ ràng, ngắn gọn ngay dưới trường; màu cảnh báo (đỏ).  
-- Sau thành công: banner chào mừng + auto-redirect sau 1–2s.
+- Sau thành công: banner chào mừng + auto-redirect sau 1-2s.
 
 ---
 
-## USER STORY 2 — LOGIN (Đăng nhập)
+## USER STORY 2 - LOGIN (Đăng nhập)
 **As**: người dùng đã có tài khoản  
 **I want**: đăng nhập nhanh và dễ dàng  
 **So that**: tôi có thể tiếp tục sử dụng dịch vụ mà không bị gián đoạn
 
 ### Acceptance Tests
-1)  Happy Path  
+1. Happy Path  
    - Given tôi đã có tài khoản hợp lệ  
    - When tôi nhập đúng email và mật khẩu  
    - Then tôi đăng nhập thành công và được chuyển vào hệ thống
 
-2)  Unhappy Path – Sai mật khẩu  
+2. Unhappy Path - Sai mật khẩu  
    - Given tôi nhập sai mật khẩu  
    - When tôi đăng nhập  
-   - Then hệ thống hiển thị lỗi “không đúng tài khoản hoặc mật khẩu”
+   - Then hệ thống hiển thị lỗi "không đúng tài khoản hoặc mật khẩu"
 
-3) Unhappy Path – Nhập sai nhiều lần  
+3. Unhappy Path - Nhập sai nhiều lần  
    - Given tôi nhập sai nhiều lần liên tiếp  
    - When tôi tiếp tục đăng nhập  
    - Then hệ thống tạm thời khóa (thông báo thời gian mở khóa hoặc hướng dẫn khôi phục)
@@ -76,17 +76,17 @@
 1. Mở trang `Đăng nhập`.
 2. Nhập Email, Mật khẩu.
 3. Bấm `Đăng nhập`.
-4a. Hợp lệ → vào hệ thống / dashboard.  
-4b. Sai → hiển thị lỗi chung, không lộ chi tiết; focus về trường mật khẩu.  
-4c. Sai nhiều lần → hiển thị trạng thái khóa, hướng dẫn mở khóa (email reset hoặc chờ X phút).
+4a. Hợp lệ -> vào hệ thống / dashboard.  
+4b. Sai -> hiển thị lỗi chung, không lộ chi tiết; focus về trường mật khẩu.  
+4c. Sai nhiều lần -> hiển thị trạng thái khóa, hướng dẫn mở khóa (email reset hoặc chờ X phút).
 
 ### Quy tắc nhập liệu
 - Email: định dạng email, yêu cầu không rỗng.
 - Mật khẩu: không rỗng.
 
 ### UI/UX gợi ý
-- Nút chính: “Đăng nhập” (primary).  
-- Link phụ: “Quên mật khẩu?” → flow reset.  
+- Nút chính: "Đăng nhập" (primary).  
+- Link phụ: "Quên mật khẩu?" -> flow reset.  
 - Hiển thị trạng thái khóa bằng banner cảnh báo + timer đếm ngược (nếu áp dụng).  
 - Giới hạn số lần thử và thông báo rõ ràng sau mỗi lần thất bại.
 
@@ -98,9 +98,9 @@
 - Truy cập: hỗ trợ focus outline, enter để submit, aria-label cho input & button.
 
 ## Chuyển hướng & trạng thái
-- Đăng ký thành công → tự động đăng nhập (nếu policy cho phép) hoặc dẫn tới trang đăng nhập kèm banner “Tạo tài khoản thành công”.
-- Đăng nhập thành công → chuyển tới trang chính; lưu session/token an toàn.
-- Form nhớ email tùy chọn “Ghi nhớ tôi” (opt-in).
+- Đăng ký thành công -> tự động đăng nhập (nếu policy cho phép) hoặc dẫn tới trang đăng nhập kèm banner "Tạo tài khoản thành công".
+- Đăng nhập thành công -> chuyển tới trang chính; lưu session/token an toàn.
+- Form nhớ email tùy chọn "Ghi nhớ tôi" (opt-in).
 
 ---
 
@@ -132,7 +132,7 @@ Người dùng          Form đăng ký          Auth API                CSDL
     |<-------------------|                    |                    |
 ```
 
-chưa có control để API gọi đến
+Ghi chú: hiện tại chưa có control để API gọi đến.
 
 ### Register - Unhappy Path: Email đã tồn tại
 ```text
@@ -234,16 +234,17 @@ Người dùng          Form đăng nhập         Auth API                CSDL
     |<-------------------|                    |                    |
 ```
 
+---
 
+## Sơ đồ tuần tự (text) - Phân quyền & Admin
 
-### Sơ đồ tuần tự (text) — Phân quyền & Admin
-Login – Happy Path (phân nhánh role)
-
+### Login - Happy Path (phân nhánh role)
+```text
 Người dùng          Form đăng nhập         AuthController        Session/Auth        CSDL
     |                    |                    |                      |                  |
-    | Truy cập /login     |                    |                      |                  |
+    | Truy cập /login    |                    |                      |                  |
     |------------------->|                    |                      |                  |
-    | Nhập email, mật khẩu|                    |                      |                  |
+    | Nhập email, mật khẩu|                   |                      |                  |
     |------------------->|                    |                      |                  |
     |                    | Gửi yêu cầu login  |                      |                  |
     |                    |------------------->|                      |                  |
@@ -263,10 +264,10 @@ Người dùng          Form đăng nhập         AuthController        Session
     | Chuyển trang:      |                    |                      |                  |
     | - nếu role=admin -> /admin                                   |                  |
     | - nếu role=user  -> /dashboard                               |                  |
+```
 
-
-
-Login – Sai mật khẩu
+### Login - Sai mật khẩu
+```text
 Người dùng          Form đăng nhập         AuthController        Session/Auth        CSDL
     |                    |                    |                      |                  |
     | Nhập email đúng nhưng mật khẩu sai     |                      |                  |
@@ -279,7 +280,7 @@ Người dùng          Form đăng nhập         AuthController        Session
     |                    |                    | Lấy user theo email  |                  |
     |                    |                    |--------------------->|                  |
     |                    |                    |<---------------------| user             |
-    |                    |                    | Auth::               |                  |
+    |                    |                    | Auth::attempt        |                  |
     |                    |                    |--------------------->|                  |
     |                    |                    |<---------------------| fail             |
     |                    |                    | RateLimiter::hit     |                  |
@@ -287,10 +288,10 @@ Người dùng          Form đăng nhập         AuthController        Session
     |                    |<-------------------|                      |                  |
     | Hiển thị lỗi đăng nhập (email)          |                      |                  |
     |<-------------------|                    |                      |                  |
+```
 
-
-Admin – Danh sách user
-
+### Admin - Danh sách user
+```text
 Admin               Browser               Web routes           CheckRole           AdminUserController        DB
     |                   |                      |                    |                       |                  |
     | Mở /admin/users   |                      |                    |                       |                  |
@@ -307,10 +308,10 @@ Admin               Browser               Web routes           CheckRole        
     |                   |                      |<-------------------------------------------| render list      |
     | Nhận bảng user    |                      |                    |                       |                  |
     |<------------------|                      |                    |                       |                  |
+```
 
-
-Admin – Tạo user
-
+### Admin - Tạo user
+```text
 Admin               Browser               Web routes           CheckRole           AdminUserController        DB
     |                   |                      |                    |                       |                  |
     | Submit POST /admin/users (name,email,pwd,role)                                            |
@@ -326,10 +327,10 @@ Admin               Browser               Web routes           CheckRole        
     |                   |                      |<-------------------------------------------| redirect /admin/users |
     | Nhận redirect + flash                    |                    |                       |                  |
     |<------------------|                      |                    |                       |                  |
+```
 
-
-Admin – Cập nhật user (không đổi mật khẩu nếu để trống)
-
+### Admin - Cập nhật user (không đổi mật khẩu nếu để trống)
+```text
 Admin               Browser               Web routes           CheckRole           AdminUserController        DB
     |                   |                      |                    |                       |                  |
     | PUT /admin/users/{id} (name,email,role,password optional)                           |
@@ -345,9 +346,10 @@ Admin               Browser               Web routes           CheckRole        
     |                   |                      |<---------------------------------------------| redirect /admin/users |
     | Nhận redirect     |                      |                    |                       |                  |
     |<------------------|                      |                    |                       |                  |
+```
 
-
-Admin – Xóa user (chặn tự xóa)
+### Admin - Xóa user (chặn tự xóa)
+```text
 Admin               Browser               Web routes           CheckRole           AdminUserController        DB
     |                   |                      |                    |                       |                  |
     | DELETE /admin/users/{id}                 |                    |                       |                  |
@@ -364,3 +366,4 @@ Admin               Browser               Web routes           CheckRole        
     |                   |                      |<---------------------------------------------| redirect + status/error |
     | Nhận redirect     |                      |                    |                       |                  |
     |<------------------|                      |                    |                       |                  |
+```
