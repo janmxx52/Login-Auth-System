@@ -62,8 +62,8 @@
                 <div class="info-item">
                     <div class="info-label">Trạng thái</div>
                     <div class="info-value">
-                        <span class="status status-{{ $request->status === 'Chờ xử lý' ? 'pending' : ($request->status === 'Đã duyệt' ? 'approved' : 'rejected') }}">
-                            {{ $request->status === 'Chờ xử lý' ? '⏳ Chờ xử lý' : ($request->status === 'Đã duyệt' ? '✓ Đã duyệt' : '✗ Từ chối') }}
+                        <span class="status status-{{ $request->status === 'Chờ xử lý' ? 'pending' : ($request->status === 'Đã chấp nhận' ? 'approved' : 'rejected') }}">
+                            {{ $request->status === 'Chờ xử lý' ? '⏳ Chờ xử lý' : ($request->status === 'Đã chấp nhận' ? '✓ Đã chấp nhận' : '✗ Đã từ chối') }}
                         </span>
                     </div>
                 </div>
@@ -97,6 +97,13 @@
                 <div class="reason-label">Mô tả chi tiết</div>
                 <div class="reason-text">{{ $request->reason }}</div>
             </div>
+
+            @if($request->rejection_reason)
+                <div class="reason-box" style="margin-top: 16px; border-left-color: #b91c1c;">
+                    <div class="reason-label" style="color: #b91c1c;">Lý do từ chối</div>
+                    <div class="reason-text">{{ $request->rejection_reason }}</div>
+                </div>
+            @endif
         </div>
 
         <div class="card">
@@ -125,6 +132,15 @@
                         <div class="timeline-text">Cập nhật lần cuối</div>
                     </div>
                 </div>
+                @if($request->processed_at)
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">{{ $request->processed_at->format('d/m/Y H:i') }}</div>
+                            <div class="timeline-text">Yêu cầu đã được xử lý với trạng thái <strong>{{ $request->status }}</strong></div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

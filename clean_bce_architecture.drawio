@@ -1,0 +1,229 @@
+<mxfile host="app.diagrams.net" modified="2026-04-20T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="clean-bce-page" name="Clean Architecture BCE">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="Clean Architecture + BCE View (derived from current source code)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="500" y="20" width="800" height="30" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="outer" value="Frameworks &amp; Drivers" style="swimlane;html=1;rounded=1;whiteSpace=wrap;horizontal=0;startSize=28;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="1700" height="1240" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="interface" value="Interface Adapters / BCE Boundary" style="swimlane;html=1;rounded=1;whiteSpace=wrap;horizontal=0;startSize=28;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" vertex="1" parent="outer">
+          <mxGeometry x="50" y="60" width="1600" height="1040" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="app" value="Application Business Rules / BCE Control" style="swimlane;html=1;rounded=1;whiteSpace=wrap;horizontal=0;startSize=28;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="interface">
+          <mxGeometry x="70" y="90" width="1460" height="700" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="entities" value="Entities / BCE Entity" style="swimlane;html=1;rounded=1;whiteSpace=wrap;horizontal=0;startSize=28;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="app">
+          <mxGeometry x="90" y="100" width="1280" height="260" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="browser" value="Browser / HTTP Client" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="outer">
+          <mxGeometry x="80" y="40" width="180" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="routes" value="Routes&#xa;`routes/web.php`&#xa;GET/POST/PATCH endpoints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="outer">
+          <mxGeometry x="300" y="40" width="220" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="views" value="Blade Views&#xa;login/register/dashboard&#xa;warranty/admin screens" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="outer">
+          <mxGeometry x="560" y="40" width="220" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="eloquent" value="Eloquent / Laravel Facades&#xa;Auth, Hash, RateLimiter, Redirect" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="outer">
+          <mxGeometry x="820" y="40" width="260" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="database" value="SQLite / DB Tables&#xa;users, warranty_requests, sessions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="outer">
+          <mxGeometry x="1120" y="40" width="240" height="80" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="boundaryLabel" value="Boundary classes currently present in source code" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=14" vertex="1" parent="interface">
+          <mxGeometry x="20" y="30" width="360" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="authController" value="&lt;&lt;Boundary&gt;&gt;&#xa;AuthController&#xa;showRegister, register, showLogin, login, logout" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="interface">
+          <mxGeometry x="30" y="70" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="dashboardController" value="&lt;&lt;Boundary&gt;&gt;&#xa;DashboardController&#xa;index" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="interface">
+          <mxGeometry x="290" y="70" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="warrantyController" value="&lt;&lt;Boundary&gt;&gt;&#xa;WarrantyRequestController&#xa;create, store, success, index, show" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="interface">
+          <mxGeometry x="490" y="70" width="250" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="adminController" value="&lt;&lt;Boundary&gt;&gt;&#xa;AdminController&#xa;index" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="interface">
+          <mxGeometry x="760" y="70" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="adminUserController" value="&lt;&lt;Boundary&gt;&gt;&#xa;AdminUserController&#xa;index, create, store, edit, update, destroy" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="interface">
+          <mxGeometry x="960" y="70" width="250" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="adminWarrantyController" value="&lt;&lt;Boundary&gt;&gt;&#xa;AdminWarrantyRequestController&#xa;index, show, approve, reject" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="interface">
+          <mxGeometry x="1230" y="70" width="260" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="checkRole" value="&lt;&lt;Boundary&gt;&gt;&#xa;CheckRole middleware&#xa;auth + role guard for admin routes" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="interface">
+          <mxGeometry x="1510" y="70" width="200" height="100" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="controlLabel" value="Control layer proposed from current behavior (use cases not yet extracted in code)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=14" vertex="1" parent="app">
+          <mxGeometry x="20" y="30" width="500" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="registerUC" value="&lt;&lt;Control&gt;&gt;&#xa;RegisterUserUseCase&#xa;- validate input&#xa;- ensure unique email&#xa;- hash password&#xa;- create user" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="30" y="70" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="loginUC" value="&lt;&lt;Control&gt;&gt;&#xa;LoginUserUseCase&#xa;- validate credentials&#xa;- check rate limiter&#xa;- attempt auth&#xa;- choose redirect by role" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="270" y="70" width="240" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="logoutUC" value="&lt;&lt;Control&gt;&gt;&#xa;LogoutUserUseCase&#xa;- clear auth state" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="530" y="70" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="dashboardUC" value="&lt;&lt;Control&gt;&gt;&#xa;ViewDashboardUseCase&#xa;- count requests&#xa;- count pending&#xa;- count completed&#xa;- load 4 latest" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="730" y="70" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="createWarrantyUC" value="&lt;&lt;Control&gt;&gt;&#xa;CreateWarrantyRequestUseCase&#xa;- load mock order&#xa;- validate form&#xa;- check order validity&#xa;- check return window&#xa;- create request" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="970" y="70" width="250" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="listWarrantyUC" value="&lt;&lt;Control&gt;&gt;&#xa;ListUserWarrantyRequestsUseCase&#xa;- list by Auth::id()" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="1240" y="70" width="210" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="showWarrantyUC" value="&lt;&lt;Control&gt;&gt;&#xa;ViewUserWarrantyRequestDetailUseCase&#xa;- route model binding&#xa;- enforce ownership" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="1470" y="70" width="240" height="110" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="userAdminUC" value="&lt;&lt;Control&gt;&gt;&#xa;ManageUsersUseCase&#xa;- list users&#xa;- create user&#xa;- update user&#xa;- prevent self-delete&#xa;- delete user" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="180" y="250" width="230" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="listAdminWarrantyUC" value="&lt;&lt;Control&gt;&gt;&#xa;ListAdminWarrantyRequestsUseCase&#xa;- latest requests&#xa;- eager load owner + processor" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="450" y="250" width="240" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="showAdminWarrantyUC" value="&lt;&lt;Control&gt;&gt;&#xa;ViewAdminWarrantyRequestDetailUseCase&#xa;- load owner + processor" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="720" y="250" width="240" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="approveWarrantyUC" value="&lt;&lt;Control&gt;&gt;&#xa;ApproveWarrantyRequestUseCase&#xa;- ensure pending&#xa;- set accepted status&#xa;- set processor + processed_at" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="990" y="250" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="rejectWarrantyUC" value="&lt;&lt;Control&gt;&gt;&#xa;RejectWarrantyRequestUseCase&#xa;- ensure pending&#xa;- validate rejection reason&#xa;- set rejected status&#xa;- set processor + processed_at" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#e1f0ff;strokeColor=#6c8ebf;" vertex="1" parent="app">
+          <mxGeometry x="1260" y="250" width="250" height="150" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="userEntity" value="&lt;&lt;Entity&gt;&gt;&#xa;User&#xa;- id&#xa;- name&#xa;- email&#xa;- password&#xa;- role" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#dff0d8;strokeColor=#82b366;" vertex="1" parent="entities">
+          <mxGeometry x="40" y="50" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="warrantyEntity" value="&lt;&lt;Entity&gt;&gt;&#xa;WarrantyRequest&#xa;- user_id&#xa;- order_number&#xa;- order_status&#xa;- products[]&#xa;- reason&#xa;- status&#xa;- processed_by&#xa;- processed_at&#xa;- rejection_reason" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#dff0d8;strokeColor=#82b366;" vertex="1" parent="entities">
+          <mxGeometry x="300" y="40" width="270" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="orderSnapshotEntity" value="&lt;&lt;Entity&gt;&gt;&#xa;Order Snapshot (implicit in current code)&#xa;- order_key&#xa;- order_number&#xa;- status&#xa;- received_at&#xa;- return_window_days&#xa;- products" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#dff0d8;strokeColor=#82b366;" vertex="1" parent="entities">
+          <mxGeometry x="610" y="50" width="270" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="authPolicyEntity" value="&lt;&lt;Entity&gt;&gt;&#xa;Auth/Role Rules (implicit)&#xa;- max login attempts = 3&#xa;- admin role required for /admin&#xa;- user can only read own warranty request" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#dff0d8;strokeColor=#82b366;" vertex="1" parent="entities">
+          <mxGeometry x="920" y="50" width="300" height="160" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="repoLabel" value="Gateway / Repository abstractions inferred from current source and guide" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontStyle=1;fontSize=14" vertex="1" parent="interface">
+          <mxGeometry x="20" y="840" width="500" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="userRepo" value="UserRepository / UserGateway&#xa;- create()&#xa;- findByEmail()&#xa;- find()&#xa;- update()&#xa;- delete()" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#f8f9fa;strokeColor=#666666;" vertex="1" parent="interface">
+          <mxGeometry x="60" y="870" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="warrantyRepo" value="WarrantyRequestRepository&#xa;- create()&#xa;- listByUser()&#xa;- findById()&#xa;- latestAll()&#xa;- saveStatusChange()" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#f8f9fa;strokeColor=#666666;" vertex="1" parent="interface">
+          <mxGeometry x="320" y="870" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="authGateway" value="AuthGateway&#xa;- attempt()&#xa;- logout()&#xa;- check()&#xa;- user()&#xa;- id()" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#f8f9fa;strokeColor=#666666;" vertex="1" parent="interface">
+          <mxGeometry x="600" y="870" width="190" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="rateLimiterGateway" value="RateLimiterGateway&#xa;- tooManyAttempts()&#xa;- hit()&#xa;- clear()" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#f8f9fa;strokeColor=#666666;" vertex="1" parent="interface">
+          <mxGeometry x="830" y="870" width="210" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="hashGateway" value="HashGateway&#xa;- make()&#xa;- check()" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#f8f9fa;strokeColor=#666666;" vertex="1" parent="interface">
+          <mxGeometry x="1080" y="870" width="170" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="viewPresenter" value="View / Presenter Adapter&#xa;- Blade rendering&#xa;- redirect responses&#xa;- session errors / flash" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#f8f9fa;strokeColor=#666666;" vertex="1" parent="interface">
+          <mxGeometry x="1290" y="870" width="220" height="110" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="note" value="Note: current Laravel code has Controllers talking directly to Eloquent and Facades.&#xa;This diagram reorganizes the same behavior into Clean Architecture + BCE roles." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=2;" vertex="1" parent="outer">
+          <mxGeometry x="1380" y="1140" width="320" height="90" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge-browser-routes" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="browser" target="routes"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-routes-boundary" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="routes" target="authController"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-routes-dashboard" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="routes" target="dashboardController"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-routes-warranty" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="routes" target="warrantyController"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-routes-admin" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="routes" target="adminController"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-routes-adminuser" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="routes" target="adminUserController"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-routes-adminwarranty" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="routes" target="adminWarrantyController"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-routes-checkrole" value="admin routes" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="routes" target="checkRole"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="edge-auth-registerUC" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="authController" target="registerUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-auth-loginUC" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="authController" target="loginUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-auth-logoutUC" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="authController" target="logoutUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-dashboard-dashboardUC" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="dashboardController" target="dashboardUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-warranty-createUC" value="store()" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="warrantyController" target="createWarrantyUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-warranty-listUC" value="index()" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="warrantyController" target="listWarrantyUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-warranty-showUC" value="show()" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="warrantyController" target="showWarrantyUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-adminuser-manageUC" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="adminUserController" target="userAdminUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-adminwarranty-listUC" value="index()" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="adminWarrantyController" target="listAdminWarrantyUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-adminwarranty-showUC" value="show()" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="adminWarrantyController" target="showAdminWarrantyUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-adminwarranty-approveUC" value="approve()" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="adminWarrantyController" target="approveWarrantyUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-adminwarranty-rejectUC" value="reject()" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#6c8ebf;" edge="1" parent="1" source="adminWarrantyController" target="rejectWarrantyUC"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="edge-register-userEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="registerUC" target="userEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-login-userEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="loginUC" target="userEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-login-authRules" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="loginUC" target="authPolicyEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-dashboard-warrantyEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="dashboardUC" target="warrantyEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-createWarranty-warrantyEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="createWarrantyUC" target="warrantyEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-createWarranty-orderEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="createWarrantyUC" target="orderSnapshotEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-listWarranty-warrantyEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="listWarrantyUC" target="warrantyEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-showWarranty-warrantyEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="showWarrantyUC" target="warrantyEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-showWarranty-authRules" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="showWarrantyUC" target="authPolicyEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-manageUsers-userEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="userAdminUC" target="userEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-listAdminWarranty-warrantyEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="listAdminWarrantyUC" target="warrantyEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-showAdminWarranty-warrantyEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="showAdminWarrantyUC" target="warrantyEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-approveWarranty-warrantyEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="approveWarrantyUC" target="warrantyEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-rejectWarranty-warrantyEntity" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="rejectWarrantyUC" target="warrantyEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-rejectWarranty-authRules" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;" edge="1" parent="1" source="rejectWarrantyUC" target="authPolicyEntity"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="edge-register-userRepo" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="registerUC" target="userRepo"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-register-hash" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="registerUC" target="hashGateway"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-login-userRepo" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="loginUC" target="userRepo"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-login-authGateway" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="loginUC" target="authGateway"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-login-rate" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="loginUC" target="rateLimiterGateway"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-logout-authGateway" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="logoutUC" target="authGateway"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-dashboard-warrantyRepo" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dashboardUC" target="warrantyRepo"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-createWarranty-warrantyRepo" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="createWarrantyUC" target="warrantyRepo"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-createWarranty-authGateway" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="createWarrantyUC" target="authGateway"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-listWarranty-warrantyRepo" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="listWarrantyUC" target="warrantyRepo"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-showWarranty-warrantyRepo" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="showWarrantyUC" target="warrantyRepo"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-showWarranty-authGateway" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="showWarrantyUC" target="authGateway"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-manageUsers-userRepo" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="userAdminUC" target="userRepo"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-manageUsers-authGateway" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="userAdminUC" target="authGateway"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-listAdminWarranty-warrantyRepo" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="listAdminWarrantyUC" target="warrantyRepo"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-showAdminWarranty-warrantyRepo" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="showAdminWarrantyUC" target="warrantyRepo"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-approveWarranty-warrantyRepo" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="approveWarrantyUC" target="warrantyRepo"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-approveWarranty-authGateway" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="approveWarrantyUC" target="authGateway"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-rejectWarranty-warrantyRepo" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="rejectWarrantyUC" target="warrantyRepo"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-rejectWarranty-authGateway" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="rejectWarrantyUC" target="authGateway"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="edge-boundary-presenter" value="render / redirect" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="authController" target="viewPresenter"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-dashboard-presenter" value="render view" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="dashboardController" target="viewPresenter"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-warranty-presenter" value="render / redirect" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="warrantyController" target="viewPresenter"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-adminuser-presenter" value="render / redirect" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="adminUserController" target="viewPresenter"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-adminwarranty-presenter" value="render / redirect" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="adminWarrantyController" target="viewPresenter"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <mxCell id="edge-gateway-eloquent-user" value="implemented by Eloquent User model" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="userRepo" target="eloquent"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-gateway-eloquent-warranty" value="implemented by Eloquent WarrantyRequest model" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="warrantyRepo" target="eloquent"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-gateway-auth" value="Auth facade" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="authGateway" target="eloquent"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-gateway-rate" value="RateLimiter facade" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="rateLimiterGateway" target="eloquent"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-gateway-hash" value="Hash facade / bcrypt" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="hashGateway" target="eloquent"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-eloquent-db" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="eloquent" target="database"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-views-browser" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="views" target="browser"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="edge-presenter-views" style="endArrow=open;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="viewPresenter" target="views"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

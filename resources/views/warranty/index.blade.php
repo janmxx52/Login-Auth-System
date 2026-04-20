@@ -67,8 +67,8 @@
                                 <td>{{ $request->order_number }}</td>
                                 <td>{{ count($request->products) }} sản phẩm</td>
                                 <td>
-                                    <span class="status status-{{ $request->status === 'Chờ xử lý' ? 'pending' : ($request->status === 'Đã duyệt' ? 'approved' : 'rejected') }}">
-                                        {{ $request->status === 'Chờ xử lý' ? '⏳ Chờ xử lý' : ($request->status === 'Đã duyệt' ? '✓ Đã duyệt' : '✗ Từ chối') }}
+                                    <span class="status status-{{ $request->status === 'Chờ xử lý' ? 'pending' : ($request->status === 'Đã chấp nhận' ? 'approved' : 'rejected') }}">
+                                        {{ $request->status === 'Chờ xử lý' ? '⏳ Chờ xử lý' : ($request->status === 'Đã chấp nhận' ? '✓ Đã chấp nhận' : '✗ Đã từ chối') }}
                                     </span>
                                 </td>
                                 <td class="date">{{ $request->created_at->format('d/m/Y H:i') }}</td>

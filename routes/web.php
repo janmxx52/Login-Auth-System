@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminWarrantyRequestController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WarrantyRequestController;
@@ -34,4 +35,8 @@ Route::prefix('admin')
     ->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
         Route::resource('users', AdminUserController::class)->except(['show']);
+        Route::get('/warranty-requests', [AdminWarrantyRequestController::class, 'index'])->name('warranty-requests.index');
+        Route::get('/warranty-requests/{warrantyRequest}', [AdminWarrantyRequestController::class, 'show'])->name('warranty-requests.show');
+        Route::patch('/warranty-requests/{warrantyRequest}/approve', [AdminWarrantyRequestController::class, 'approve'])->name('warranty-requests.approve');
+        Route::patch('/warranty-requests/{warrantyRequest}/reject', [AdminWarrantyRequestController::class, 'reject'])->name('warranty-requests.reject');
     });

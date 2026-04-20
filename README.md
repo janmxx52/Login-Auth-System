@@ -8,16 +8,19 @@
 ---
 
 ## USER STORY 1 - REGISTER (Đăng ký tài khoản)
-**As**: khách hàng chưa có tài khoản
-**I want**: đăng ký tài khoản
-**So that**: tôi có thể đăng nhập và sử dụng đầy đủ chức năng của hệ thống
+As: Khách hàng chưa có tài khoản trên hệ thống
+I want: đăng ký tài khoản bằng họ tên, email và mật khẩu
+So that: tôi có thể đăng nhập và sử dụng các chức năng mua hàng
 
 ### Acceptance Tests
 1. Happy Path – Đăng ký thành công
-Given tôi là khách hàng mới và đang ở trang đăng ký
-When tôi nhập họ tên hợp lệ, email hợp lệ, mật khẩu hợp lệ và nhấn "Đăng ký"
-Then hệ thống tạo tài khoản thành công
-And chuyển tôi đến trang đăng nhập hoặc trang chủ
+Given tôi đang ở trang đăng ký
+When tôi nhập họ tên hợp lệ
+And tôi nhập email chưa tồn tại trong hệ thống
+And tôi nhập mật khẩu và xác nhận mật khẩu trùng khớp
+And tôi nhấn "Đăng ký"
+Then hệ thống tạo tài khoản mới
+And chuyển tôi đến trang đăng nhập
 
 2. Unhappy Path – Email đã tồn tại
 Given tôi đang ở trang đăng ký
@@ -45,161 +48,44 @@ And tài khoản không được tạo
 
 
 
-## Sơ đồ tuần tự
-
-### Register - Happy Path
-```text
-Người dùng          Form đăng ký          Auth API                CSDL
-    |                    |                    |                    |
-    | Truy cập trang     |                    |                    |
-    |------------------->|                    |                    |
-    | Nhập họ tên, email, mật khẩu, xác nhận  |                    |
-    |------------------->|                    |                    |
-    |                    | Kiểm tra dữ liệu   |                    |
-    |                    |------------------->|                    |
-    |                    | Gửi yêu cầu đăng ký|                    |
-    |                    |------------------->|                    |
-    |                    |                    | Kiểm tra email     |
-    |                    |                    |------------------->|
-    |                    |                    | Email chưa tồn tại |
-    |                    |                    |<-------------------|
-    |                    |                    | Tạo tài khoản mới  |
-    |                    |                    |------------------->|
-    |                    |                    | Tạo thành công     |
-    |                    |                    |<-------------------|
-    |                    | Nhận kết quả thành công                 |
-    |                    |<-------------------|                    |
-    | Thông báo thành công và chuyển trang    |                    |
-    |<-------------------|                    |                    |
-```
-
-Ghi chú: hiện tại chưa có control để API gọi đến.
-
-### Register - Unhappy Path: Email đã tồn tại
-```text
-Người dùng          Form đăng ký          Auth API                CSDL
-    |                    |                    |                    |
-    | Nhập email đã đăng ký                   |                    |
-    |------------------->|                    |                    |
-    |                    | Kiểm tra dữ liệu   |                    |
-    |                    |------------------->|                    |
-    |                    | Gửi yêu cầu đăng ký|                    |
-    |                    |------------------->|                    |
-    |                    |                    | Kiểm tra email     |
-    |                    |                    |------------------->|
-    |                    |                    | Email đã tồn tại   |
-    |                    |                    |<-------------------|
-    |                    | Trả lỗi email đã tồn tại                |
-    |                    |<-------------------|                    |
-    | Hiển thị lỗi tại ô email                |                    |
-    |<-------------------|                    |                    |
-    | Focus vào ô email để nhập lại           |                    |
-    |<-------------------|                    |                    |
-```
-
-### Register - Unhappy Path: Mật khẩu không trùng khớp
-```text
-Người dùng          Form đăng ký
-    |                    |
-    | Nhập mật khẩu và xác nhận không trùng
-    |------------------->|
-    |                    | Kiểm tra dữ liệu phía client
-    |                    |------------------->|
-    | Hiển thị lỗi mật khẩu không trùng khớp
-    |<-------------------|
-    | Focus vào trường mật khẩu/xác nhận
-    |<-------------------|
-```
-===========================================
-
 
 ## USER STORY 2 - LOGIN (Đăng nhập)
-**As**: khách hàng đã có tài khoản 
-**I want**: đăng nhập vào hệ thống  
-**So that**: tôi có thể mua hàng và xem lịch sử đơn hàng
+As: Khách hàng đã đăng ký tài khoản trên hệ thống
+I want: đăng nhập bằng email và mật khẩu
+So that: tôi có thể truy cập tài khoản và thực hiện mua hàng
 
 ### Acceptance Tests
-1. Happy Path  
-   - Given tôi đã có tài khoản hợp lệ  
-   - When tôi nhập đúng email và mật khẩu  
-   - Then tôi đăng nhập thành công và được chuyển vào hệ thống
+1. Happy Path – Đăng nhập thành công
+Given tôi có tài khoản đã đăng ký
+When tôi nhập email và mật khẩu hợp lệ
+And tôi nhấn "Đăng nhập"
+Then hệ thống xác thực thành công
+And tôi được chuyển đến trang chủ
 
-2. Unhappy Path - Sai mật khẩu  
-   - Given tôi nhập sai mật khẩu  
-   - When tôi đăng nhập  
-   - Then hệ thống hiển thị lỗi "không đúng tài khoản hoặc mật khẩu"
+2. Unhappy Path – Sai mật khẩu
+Given tôi nhập email hợp lệ
+And tôi nhập sai mật khẩu
+When tôi nhấn "Đăng nhập"
+Then hệ thống hiển thị thông báo "Không đúng tài khoản hoặc mật khẩu"
+And người dùng vẫn ở trang đăng nhập
 
-3. Unhappy Path - Nhập sai nhiều lần  
-   - Given tôi nhập sai nhiều lần liên tiếp  
-   - When tôi tiếp tục đăng nhập  
-   - Then hệ thống tạm thời khóa (thông báo thời gian mở khóa hoặc hướng dẫn khôi phục)
+3. Unhappy Path – Tài khoản không tồn tại
+Given email tôi nhập chưa được đăng ký
+When tôi đăng nhập
+Then hệ thống hiển thị "Không đúng tài khoản hoặc mật khẩu"
+And đăng nhập không thành công
 
+4. Unhappy Path – Nhập sai nhiều lần
+Given tôi nhập sai mật khẩu nhiều lần liên tiếp
+When tôi tiếp tục đăng nhập
+Then hệ thống tạm thời khóa đăng nhập
+And hiển thị thông báo thời gian thử lại
 
-### Login - Happy Path
-```text
-Người dùng          Form đăng nhập         Auth API                CSDL
-    |                    |                    |                    |
-    | Truy cập trang     |                    |                    |
-    |------------------->|                    |                    |
-    | Nhập email và mật khẩu đúng             |                    |
-    |------------------->|                    |                    |
-    |                    | Gửi yêu cầu đăng nhập                  |
-    |                    |------------------->|                    |
-    |                    |                    | Tìm tài khoản      |
-    |                    |                    |------------------->|
-    |                    |                    | Trả thông tin TK   |
-    |                    |                    |<-------------------|
-    |                    |                    | Xác thực mật khẩu  |
-    |                    |                    |------------------->|
-    |                    | Nhận kết quả thành công                 |
-    |                    |<-------------------|                    |
-    | Chuyển vào hệ thống                    |                    |
-    |<-------------------|                    |                    |
-```
+5. Unhappy Path – Thiếu thông tin đăng nhập
+Given tôi bỏ trống email hoặc mật khẩu
+When tôi nhấn đăng nhập
+Then hệ thống hiển thị lỗi "Vui lòng nhập đầy đủ thông tin"
 
-### Login - Unhappy Path: Sai mật khẩu
-```text
-Người dùng          Form đăng nhập         Auth API                CSDL
-    |                    |                    |                    |
-    | Nhập email đúng nhưng mật khẩu sai     |                    |
-    |------------------->|                    |                    |
-    |                    | Gửi yêu cầu đăng nhập                  |
-    |                    |------------------->|                    |
-    |                    |                    | Tìm tài khoản      |
-    |                    |                    |------------------->|
-    |                    |                    | Trả thông tin TK   |
-    |                    |                    |<-------------------|
-    |                    |                    | Xác thực thất bại  |
-    |                    |                    |------------------->|
-    |                    | Trả lỗi tài khoản/mật khẩu             |
-    |                    |<-------------------|                    |
-    | Hiển thị lỗi đăng nhập                 |                    |
-    |<-------------------|                    |                    |
-```
-
-### Login - Unhappy Path: Nhập sai nhiều lần
-```text
-Người dùng          Form đăng nhập         Auth API                CSDL
-    |                    |                    |                    |
-    | Nhập sai nhiều lần |                    |                    |
-    |------------------->|                    |                    |
-    |                    | Gửi yêu cầu đăng nhập                  |
-    |                    |------------------->|                    |
-    |                    |                    | Kiểm tra failedCount
-    |                    |                    |------------------->|
-    |                    |                    | Trả số lần sai     |
-    |                    |                    |<-------------------|
-    |                    |                    | Tăng failedCount   |
-    |                    |                    |------------------->|
-    |                    |                    | Đặt lock tạm thời  |
-    |                    |                    |------------------->|
-    |                    | Trả thông báo bị khóa                 |
-    |                    |<-------------------|                    |
-    | Hiển thị khóa tạm thời và hướng dẫn     |                    |
-    |<-------------------|                    |                    |
-```
-
----
 
 ## Sơ đồ tuần tự (text) - Phân quyền & Admin
 
@@ -521,176 +407,4 @@ And hiển thị thông báo "Không có quyền truy cập"
 - Sau khi xử lý, yêu cầu không được chỉnh sửa lại
 
 
-
-
-## Sơ đồ tuần tự - Warranty Request (User Story 3)
-
-### Warranty Request - Happy Path: Gửi yêu cầu đổi trả thành công
-```text
-Người dùng          Form yêu cầu           Web routes        WarrantyRequestController      CSDL
-    |               bảo hành               |                    |                          |
-    | Truy cập /warranty/request            |                    |                          |
-    |------------------->|                 |                    |                          |
-    | Xem form + chọn đơn hàng (4 ngày)    |                    |                          |
-    |------------------->|                 |                    |                          |
-    |                    | GET /warranty/request                 |                          |
-    |                    |----------------->|                    |                          |
-    |                    |                    | create()         |                          |
-    |                    |                    | Mock orders      |                          |
-    |                    |                    | Load view        |                          |
-    |                    | Render form       |<------------------|                          |
-    |<-------------------|                 |                    |                          |
-    |                    |                    |                    |                          |
-    | Chọn sản phẩm (min 1) + nhập lý do (min 10 ký tự)        |                          |
-    | Nhấn "Gửi yêu cầu"  |                 |                    |                          |
-    |------------------->|                 |                    |                          |
-    |                    | POST /warranty/request                |                          |
-    |                    |----------------->|                    |                          |
-    |                    |                    | store()          |                          |
-    |                    |                    | - Validate       |                          |
-    |                    |                    | - Check expired? |                          |
-    |                    |                    | - Check invalid? |                          |
-    |                    |                    | Tạo record       |                          |
-    |                    |                    |----------------->|                          |
-    |                    |                    |                    | INSERT warranty_requests |
-    |                    |                    |                    |<------------------------|
-    |                    |                    | Redirect success |                          |
-    |                    | Redirect /warranty/success             |                          |
-    |<-------------------|                 |                    |                          |
-    | "Yêu cầu bảo hành đã gửi              |                    |                          |
-    | Trạng thái: Chờ xử lý"                |                    |                          |
-```
-
-### Warranty Request - Unhappy Path: Đơn hàng quá thời gian đổi trả
-```text
-Người dùng          Form yêu cầu           Web routes        WarrantyRequestController      CSDL
-    |               bảo hành               |                    |                          |
-    | Chọn đơn hàng (15 ngày trước)         |                    |                          |
-    | Chọn sản phẩm + nhập lý do            |                    |                          |
-    | Nhấn "Gửi yêu cầu"  |                 |                    |                          |
-    |------------------->|                 |                    |                          |
-    |                    | POST /warranty/request                |                          |
-    |                    |----------------->|                    |                          |
-    |                    |                    | store()          |                          |
-    |                    |                    | - Validate       |                          |
-    |                    |                    | - orderIsExpired()                          |
-    |                    |                    | - Kiểm tra: 15 > 7 ngày                     |
-    |                    |                    | Trả error        |                          |
-    |                    | Redirect back + Error                 |                          |
-    |<-------------------|                 |                    |                          |
-    | Hiển thị thông báo:                   |                    |                          |
-    | "Đơn hàng đã hết thời gian đổi trả"  |                    |                          |
-    | Form vẫn giữ dữ liệu cũ               |                    |                          |
-    |                    |                    | Yêu cầu KHÔNG được tạo |                  |
-```
-
-### Warranty Request - Unhappy Path: Đơn hàng không hợp lệ (hủy)
-```text
-Người dùng          Form yêu cầu           Web routes        WarrantyRequestController      CSDL
-    |               bảo hành               |                    |                          |
-    | Chọn đơn hàng (status: cancelled)     |                    |                          |
-    | Chọn sản phẩm + nhập lý do            |                    |                          |
-    | Nhấn "Gửi yêu cầu"  |                 |                    |                          |
-    |------------------->|                 |                    |                          |
-    |                    | POST /warranty/request                |                          |
-    |                    |----------------->|                    |                          |
-    |                    |                    | store()          |                          |
-    |                    |                    | - Validate       |                          |
-    |                    |                    | - orderIsInvalid()                          |
-    |                    |                    | - Kiểm tra status !== 'delivered'           |
-    |                    |                    | Trả error        |                          |
-    |                    | Redirect back + Error                 |                          |
-    |<-------------------|                 |                    |                          |
-    | Hiển thị thông báo:                   |                    |                          |
-    | "Đơn hàng không đủ điều kiện đổi trả"|                    |                          |
-    |                    |                    | Yêu cầu KHÔNG được tạo |                  |
-```
-
-### Warranty Request - Unhappy Path: Chưa chọn sản phẩm
-```text
-Người dùng          Form yêu cầu           Web routes        WarrantyRequestController      CSDL
-    |               bảo hành               |                    |                          |
-    | Không chọn sản phẩm                  |                    |                          |
-    | Nhập lý do + Nhấn "Gửi yêu cầu"      |                    |                          |
-    |------------------->|                 |                    |                          |
-    |                    | POST /warranty/request                |                          |
-    |                    |----------------->|                    |                          |
-    |                    |                    | store()          |                          |
-    |                    |                    | Validate:        |                          |
-    |                    |                    | products.required |                         |
-    |                    |                    | products.min:1   |                          |
-    |                    |                    | FAILED           |                          |
-    |                    | Redirect back + Error                 |                          |
-    |<-------------------|                 |                    |                          |
-    | Hiển thị thông báo:                   |                    |                          |
-    | "Vui lòng chọn sản phẩm cần đổi trả" |                    |                          |
-    |                    |                    | Yêu cầu KHÔNG được tạo |                  |
-```
-
-### Warranty Request - Unhappy Path: Chưa nhập lý do
-```text
-Người dùng          Form yêu cầu           Web routes        WarrantyRequestController      CSDL
-    |               bảo hành               |                    |                          |
-    | Chọn sản phẩm nhưng không nhập lý do  |                    |                          |
-    | Nhấn "Gửi yêu cầu"  |                 |                    |                          |
-    |------------------->|                 |                    |                          |
-    |                    | POST /warranty/request                |                          |
-    |                    |----------------->|                    |                          |
-    |                    |                    | store()          |                          |
-    |                    |                    | Validate:        |                          |
-    |                    |                    | reason.required  |                          |
-    |                    |                    | reason.min:10    |                          |
-    |                    |                    | FAILED           |                          |
-    |                    | Redirect back + Error                 |                          |
-    |<-------------------|                 |                    |                          |
-    | Hiển thị thông báo:                   |                    |                          |
-    | "Vui lòng nhập lý do đổi trả"        |                    |                          |
-    | Focus vào textarea lý do              |                    |                          |
-    |                    |                    | Yêu cầu KHÔNG được tạo |                  |
-```
-
-### Warranty Request - View List: Xem danh sách yêu cầu bảo hành
-```text
-Người dùng          Browser               Web routes        WarrantyRequestController      CSDL
-    |                   |                    |                    |                          |
-    | Truy cập /warranty/requests            |                    |                          |
-    |------------------->|                 |                    |                          |
-    |                    | GET /warranty/requests                |                          |
-    |                    |----------------->|                    |                          |
-    |                    |                    | index()          |                          |
-    |                    |                    | - Lấy auth user  |                          |
-    |                    |                    | SELECT * WHERE user_id = auth_user          |
-    |                    |                    |----------------->|                          |
-    |                    |                    |                    | Trả danh sách requests  |
-    |                    |                    |<-----------------|                          |
-    |                    |                    | Render view      |                          |
-    |                    | Table danh sách   |<------------------|                          |
-    |<-------------------|                 |                    |                          |
-    | - ID, Đơn hàng, Sản phẩm             |                    |                          |
-    | - Trạng thái, Ngày tạo               |                    |                          |
-    | - Link "Xem chi tiết"                |                    |                          |
-```
-
-### Warranty Request - View Detail: Xem chi tiết yêu cầu bảo hành
-```text
-Người dùng          Browser               Web routes        WarrantyRequestController      CSDL
-    |                   |                    |                    |                          |
-    | Click "Xem chi tiết" (request #5)     |                    |                          |
-    |------------------->|                 |                    |                          |
-    |                    | GET /warranty/requests/5              |                          |
-    |                    |----------------->|                    |                          |
-    |                    |                    | show(#5)         |                          |
-    |                    |                    | - Check auth     |                          |
-    |                    |                    | - Check user_id  |                          |
-    |                    |                    | SELECT * FROM warranty_requests WHERE id=5  |
-    |                    |                    |----------------->|                          |
-    |                    |                    |                    | Trả warranty request    |
-    |                    |                    |<-----------------|                          |
-    |                    |                    | Render view      |                          |
-    |                    | Chi tiết request |<------------------|                          |
-    |<-------------------|                 |                    |                          |
-    | - ID, Đơn hàng, Trạng thái          |                    |                          |
-    | - Danh sách sản phẩm, Lý do          |                    |                          |
-    | - Timeline lịch sử, Nút hành động    |                    |                          |
-```
 

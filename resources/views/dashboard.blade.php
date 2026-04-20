@@ -128,7 +128,7 @@
                                     <span>{{ $request->order_status }}</span>
                                 </div>
                                 <div>
-                                    <span class="request-status {{ $request->status === 'Chờ xử lý' ? 'status-pending' : ($request->status === 'Đã duyệt' ? 'status-approved' : 'status-rejected') }}">
+                                    <span class="request-status {{ $request->status === 'Chờ xử lý' ? 'status-pending' : ($request->status === 'Đã chấp nhận' ? 'status-approved' : 'status-rejected') }}">
                                         {{ $request->status }}
                                     </span>
                                     <small>{{ \Illuminate\Support\Carbon::parse($request->created_at)->diffForHumans() }}</small>

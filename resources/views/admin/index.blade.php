@@ -22,6 +22,7 @@
             <p class="muted">Bạn có toàn quyền quản lý người dùng và truy cập khu vực /admin.</p>
             <div class="actions">
                 <a href="{{ route('admin.users.index') }}">Quản lý user →</a>
+                <a href="{{ route('admin.warranty-requests.index') }}" style="margin-left:8px; background:#0f766e; box-shadow:0 10px 25px rgba(15,118,110,0.2);">Xử lý bảo hành</a>
                 <a href="/dashboard" style="margin-left:8px; background:#2563eb; box-shadow:0 10px 25px rgba(37,99,235,0.2);">Xem dashboard</a>
             </div>
         </div>
