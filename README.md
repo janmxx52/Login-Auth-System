@@ -8,101 +8,42 @@
 ---
 
 ## USER STORY 1 - REGISTER (Đăng ký tài khoản)
-**As**: người dùng mới  
-**I want**: đăng ký tài khoản nhanh chóng, dễ dàng  
-**So that**: tôi có thể bắt đầu sử dụng dịch vụ ngay mà không bị gián đoạn
+**As**: khách hàng chưa có tài khoản
+**I want**: đăng ký tài khoản
+**So that**: tôi có thể đăng nhập và sử dụng đầy đủ chức năng của hệ thống
 
 ### Acceptance Tests
-1. Happy Path  
-   - Given tôi là người dùng mới và truy cập trang đăng ký  
-   - When tôi nhập họ tên hợp lệ, email hợp lệ, mật khẩu hợp lệ và đăng ký  
-   - Then tôi được tạo tài khoản thành công
+1. Happy Path – Đăng ký thành công
+Given tôi là khách hàng mới và đang ở trang đăng ký
+When tôi nhập họ tên hợp lệ, email hợp lệ, mật khẩu hợp lệ và nhấn "Đăng ký"
+Then hệ thống tạo tài khoản thành công
+And chuyển tôi đến trang đăng nhập hoặc trang chủ
 
-2. Unhappy Path - Email đã tồn tại  
-   - Given tôi nhập email đã được đăng ký  
-   - When tôi đăng ký  
-   - Then hệ thống thông báo rõ ràng email đã tồn tại  
-   - And trỏ đến trường email để tôi nhập lại
+2. Unhappy Path – Email đã tồn tại
+Given tôi đang ở trang đăng ký
+And email tôi nhập đã tồn tại trong hệ thống
+When tôi nhấn "Đăng ký"
+Then hệ thống hiển thị thông báo "Email đã tồn tại"
+And con trỏ được focus vào trường email
+And tài khoản không được tạo
 
-3. Unhappy Path - Xác nhận mật khẩu không hợp lệ (không trùng nhau)  
-   - Given tôi bỏ trống mật khẩu hoặc nhập sai thông tin  
-   - When tôi đăng ký  
-   - Then hệ thống hiển thị lỗi "mật khẩu không trùng khớp"  
-   - And trỏ đến trường mật khẩu để tôi nhập lại
+3. Unhappy Path – Mật khẩu không trùng khớp
+Given tôi nhập mật khẩu và xác nhận mật khẩu không giống nhau
+When tôi nhấn "Đăng ký"
+Then hệ thống hiển thị thông báo "Mật khẩu không trùng khớp"
+And con trỏ focus vào trường xác nhận mật khẩu
+And tài khoản không được tạo
 
-### Luồng màn hình
-1. Mở trang `Đăng ký`.
-2. Nhập Họ tên, Email, Mật khẩu, Xác nhận mật khẩu.
-3. Bấm `Đăng ký`.
-4a. Hợp lệ -> tạo tài khoản, chuyển tới trang login  
-4b. Không hợp lệ -> hiển thị lỗi inline tại trường sai, focus vào trường sai.
+4. Unhappy Path – Thiếu thông tin bắt buộc
+Given tôi bỏ trống họ tên hoặc email hoặc mật khẩu
+When tôi nhấn "Đăng ký"
+Then hệ thống hiển thị lỗi "Vui lòng nhập đầy đủ thông tin"
+And highlight các trường bị thiếu
+And tài khoản không được tạo
 
-### Quy tắc nhập liệu
-- Họ tên: không rỗng, tối thiểu 2 ký tự.
-- Email: định dạng email; kiểm tra tồn tại.
-- Mật khẩu: tối thiểu 8 ký tự, gồm chữ và số (tùy policy); xác nhận phải trùng.
 
-### UI/UX gợi ý
-- Nút chính: "Đăng ký" (primary).  
-- Link phụ: "Đã có tài khoản? Đăng nhập".  
-- Hiển thị spinner trên nút khi submit.  
-- Thông báo lỗi rõ ràng, ngắn gọn ngay dưới trường; màu cảnh báo (đỏ).  
-- Sau thành công: banner chào mừng + auto-redirect sau 1-2s.
 
----
 
-## USER STORY 2 - LOGIN (Đăng nhập)
-**As**: người dùng đã có tài khoản  
-**I want**: đăng nhập nhanh và dễ dàng  
-**So that**: tôi có thể tiếp tục sử dụng dịch vụ mà không bị gián đoạn
-
-### Acceptance Tests
-1. Happy Path  
-   - Given tôi đã có tài khoản hợp lệ  
-   - When tôi nhập đúng email và mật khẩu  
-   - Then tôi đăng nhập thành công và được chuyển vào hệ thống
-
-2. Unhappy Path - Sai mật khẩu  
-   - Given tôi nhập sai mật khẩu  
-   - When tôi đăng nhập  
-   - Then hệ thống hiển thị lỗi "không đúng tài khoản hoặc mật khẩu"
-
-3. Unhappy Path - Nhập sai nhiều lần  
-   - Given tôi nhập sai nhiều lần liên tiếp  
-   - When tôi tiếp tục đăng nhập  
-   - Then hệ thống tạm thời khóa (thông báo thời gian mở khóa hoặc hướng dẫn khôi phục)
-
-### Luồng màn hình
-1. Mở trang `Đăng nhập`.
-2. Nhập Email, Mật khẩu.
-3. Bấm `Đăng nhập`.
-4a. Hợp lệ -> vào hệ thống / dashboard.  
-4b. Sai -> hiển thị lỗi chung, không lộ chi tiết; focus về trường mật khẩu.  
-4c. Sai nhiều lần -> hiển thị trạng thái khóa, hướng dẫn mở khóa (email reset hoặc chờ X phút).
-
-### Quy tắc nhập liệu
-- Email: định dạng email, yêu cầu không rỗng.
-- Mật khẩu: không rỗng.
-
-### UI/UX gợi ý
-- Nút chính: "Đăng nhập" (primary).  
-- Link phụ: "Quên mật khẩu?" -> flow reset.  
-- Hiển thị trạng thái khóa bằng banner cảnh báo + timer đếm ngược (nếu áp dụng).  
-- Giới hạn số lần thử và thông báo rõ ràng sau mỗi lần thất bại.
-
----
-
-## Phi chức năng
-- Hiệu năng: phản hồi form < 300ms phía client; hiển thị loader khi gọi API.  
-- Khả dụng: thông báo lỗi tiếng Việt rõ ràng; không tiết lộ lý do chi tiết (an toàn).  
-- Truy cập: hỗ trợ focus outline, enter để submit, aria-label cho input & button.
-
-## Chuyển hướng & trạng thái
-- Đăng ký thành công -> tự động đăng nhập (nếu policy cho phép) hoặc dẫn tới trang đăng nhập kèm banner "Tạo tài khoản thành công".
-- Đăng nhập thành công -> chuyển tới trang chính; lưu session/token an toàn.
-- Form nhớ email tùy chọn "Ghi nhớ tôi" (opt-in).
-
----
 
 ## Sơ đồ tuần tự
 
@@ -169,6 +110,30 @@ Người dùng          Form đăng ký
     | Focus vào trường mật khẩu/xác nhận
     |<-------------------|
 ```
+===========================================
+
+
+## USER STORY 2 - LOGIN (Đăng nhập)
+**As**: khách hàng đã có tài khoản 
+**I want**: đăng nhập vào hệ thống  
+**So that**: tôi có thể mua hàng và xem lịch sử đơn hàng
+
+### Acceptance Tests
+1. Happy Path  
+   - Given tôi đã có tài khoản hợp lệ  
+   - When tôi nhập đúng email và mật khẩu  
+   - Then tôi đăng nhập thành công và được chuyển vào hệ thống
+
+2. Unhappy Path - Sai mật khẩu  
+   - Given tôi nhập sai mật khẩu  
+   - When tôi đăng nhập  
+   - Then hệ thống hiển thị lỗi "không đúng tài khoản hoặc mật khẩu"
+
+3. Unhappy Path - Nhập sai nhiều lần  
+   - Given tôi nhập sai nhiều lần liên tiếp  
+   - When tôi tiếp tục đăng nhập  
+   - Then hệ thống tạm thời khóa (thông báo thời gian mở khóa hoặc hướng dẫn khôi phục)
+
 
 ### Login - Happy Path
 ```text
@@ -367,3 +332,365 @@ Admin               Browser               Web routes           CheckRole        
     | Nhận redirect     |                      |                    |                       |                  |
     |<------------------|                      |                    |                       |                  |
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+=================================================================================
+
+
+
+
+## USER STORY 3 - Yêu cầu đổi trả hàng
+**As**: Khách hàng đã nhận đơn hàng hợp lệ trong thời gian quy định 
+**I want**: gửi yêu cầu đổi trả sản phẩm  
+**So that**: tôi có thể được hỗ trợ đổi sang sản phẩm khác hoặc hoàn tiền đơn hàng
+
+### Acceptance Tests
+## 1. Happy Path – Gửi yêu cầu đổi trả thành công
+Given tôi đã đăng nhập vào hệ thống
+And tôi có đơn hàng đã nhận trong thời gian đổi trả hợp lệ
+When tôi chọn sản phẩm trong đơn hàng và nhấn "Yêu cầu đổi trả"
+And tôi nhập lý do đổi trả hợp lệ
+And tôi gửi yêu cầu
+Then hệ thống tạo yêu cầu đổi trả thành công
+And trạng thái yêu cầu là "Chờ xử lý"
+
+## 2. Unhappy Path – Đơn hàng không nằm trong thời gian đổi trả
+Given tôi có đơn hàng đã quá thời gian đổi trả
+When tôi gửi yêu cầu đổi trả
+Then hệ thống hiển thị thông báo "Đơn hàng đã hết thời gian đổi trả"
+And yêu cầu không được tạo
+
+## 3. Unhappy Path – Đơn hàng không hợp lệ
+Given đơn hàng của tôi chưa được giao hoặc đã bị hủy
+When tôi gửi yêu cầu đổi trả
+Then hệ thống hiển thị thông báo "Đơn hàng không đủ điều kiện đổi trả"
+And yêu cầu không được tạo
+
+## 4. Unhappy Path – Chưa nhập lý do đổi trả
+Given tôi mở form yêu cầu đổi trả
+When tôi không nhập lý do và nhấn gửi
+Then hệ thống hiển thị thông báo "Vui lòng nhập lý do đổi trả"
+And con trỏ focus vào ô lý do
+And yêu cầu không được tạo
+
+## 5. Unhappy Path – Chưa chọn sản phẩm đổi trả
+Given tôi có đơn hàng gồm nhiều sản phẩm
+When tôi không chọn sản phẩm nào và nhấn gửi yêu cầu
+Then hệ thống hiển thị thông báo "Vui lòng chọn sản phẩm cần đổi trả"
+And yêu cầu không được tạo
+
+=========================================================================
+## USER STORY 4 – Admin chấp nhận yêu cầu đổi trả hàng
+As: Nhân viên quản trị xử lý yêu cầu đổi trả
+I want: chấp nhận yêu cầu đổi trả đang chờ xử lý
+So that: yêu cầu hợp lệ được tiến hành đổi trả
+
+## Acceptance Tests
+## 1. Happy Path – Admin chấp nhận yêu cầu đổi trả
+Given tôi là admin đã đăng nhập
+And có yêu cầu đổi trả ở trạng thái "Chờ xử lý"
+When tôi chọn "Chấp nhận" yêu cầu
+Then hệ thống cập nhật trạng thái thành "Đã chấp nhận"
+And hệ thống lưu thời gian xử lý
+
+## 2. Unhappy Path – Người dùng không phải admin truy cập
+Requirements:
+Given tôi là người dùng thường đã đăng nhập
+When tôi truy cập trang quản lý yêu cầu đổi trả
+Then hệ thống từ chối truy cập
+And hiển thị lỗi "Không có quyền truy cập"
+
+## 3. Unhappy Path – Xử lý yêu cầu đã được xử lý
+Requirements:
+Given yêu cầu đổi trả đã có trạng thái "Đã chấp nhận" hoặc "Đã từ chối"
+When admin tiếp tục xử lý yêu cầu
+Then hệ thống không cho phép xử lý lại
+And hiển thị thông báo "Yêu cầu đã được xử lý"
+
+#### USER STORY 5 – Admin từ chối yêu cầu đổi trả hàng
+As: Nhân viên quản trị xử lý yêu cầu đổi trả
+I want: từ chối yêu cầu đổi trả không hợp lệ
+So that: chỉ các yêu cầu đúng chính sách được thực hiện
+
+## Acceptance Tests
+
+1. Happy Path – Từ chối yêu cầu thành công
+Given tôi là admin đã đăng nhập
+And yêu cầu đang ở trạng thái "Chờ xử lý"
+When tôi chọn "Từ chối"
+And tôi nhập lý do từ chối
+Then hệ thống cập nhật trạng thái thành "Đã từ chối"
+And hệ thống lưu lý do từ chối
+
+2. Unhappy Path – Chưa nhập lý do từ chối
+Given tôi chọn "Từ chối" yêu cầu
+When tôi không nhập lý do và nhấn xác nhận
+Then hệ thống hiển thị "Vui lòng nhập lý do từ chối"
+And trạng thái không thay đổi
+
+3. Unhappy Path – Yêu cầu đã xử lý
+Given yêu cầu đã có trạng thái "Đã từ chối"
+When tôi tiếp tục từ chối
+Then hệ thống hiển thị "Yêu cầu đã được xử lý"
+And hệ thống không cập nhật lại trạng thái
+
+
+### USER STORY 6 – Xem yêu cầu bảo hành / đổi trả
+As: Nhân viên quản trị phụ trách xử lý đổi trả
+I want: xem danh sách yêu cầu bảo hành của khách hàng
+So that: tôi có thể theo dõi và lựa chọn yêu cầu cần xử lý
+
+## Acceptance Tests
+
+1. Happy Path – Xem danh sách yêu cầu bảo hành
+Requirements:
+Given tôi là admin đã đăng nhập
+When tôi truy cập trang quản lý yêu cầu bảo hành
+Then hệ thống hiển thị danh sách yêu cầu bảo hành
+And mỗi yêu cầu hiển thị thông tin cơ bản (mã đơn hàng, khách hàng, trạng thái, ngày tạo)
+
+2. Happy Path – Xem chi tiết yêu cầu bảo hành
+Requirements:
+Given tôi là admin đã đăng nhập
+And danh sách có yêu cầu bảo hành
+When tôi chọn một yêu cầu bảo hành
+Then hệ thống hiển thị chi tiết yêu cầu
+And hiển thị sản phẩm cần đổi trả
+And hiển thị lý do yêu cầu
+And hiển thị trạng thái yêu cầu
+
+3. Unhappy Path – Người dùng không phải admin truy cập
+Requirements:
+Given tôi là người dùng thường đã đăng nhập
+When tôi truy cập trang quản lý yêu cầu bảo hành
+Then hệ thống từ chối truy cập
+And hiển thị thông báo "Không có quyền truy cập"
+
+## Business Rules ( User yêu cầu bảo hành)
+- Người dùng phải đăng nhập trước khi gửi yêu cầu đổi trả
+- Đơn hàng phải thuộc về người dùng hiện tại
+- Đơn hàng phải đã giao thành công
+- Sản phẩm phải nằm trong thời gian đổi trả quy định
+- Người dùng phải chọn sản phẩm trong đơn hàng để đổi trả
+
+
+## Business Logic ( User yêu cầu bảo hành )
+- Hệ thống kiểm tra người dùng đã đăng nhập
+- Hệ thống kiểm tra đơn hàng thuộc về người dùng
+- Hệ thống kiểm tra trạng thái đơn hàng là delivered
+- Hệ thống kiểm tra thời gian đổi trả trong vòng 7 ngày
+- Người dùng chọn sản phẩm cần đổi trả
+- Người dùng nhập lý do đổi trả tối thiểu 10 ký tự
+- Hệ thống validate dữ liệu
+- Nếu hợp lệ, hệ thống tạo yêu cầu đổi trả với trạng thái "Chờ xử lý"
+=======================================================
+
+
+## Business Rules (Admin xử lý yêu cầu bảo hành)
+- Chỉ admin mới được truy cập trang quản lý yêu cầu bảo hành
+- Admin có thể xem tất cả yêu cầu đổi trả của người dùng
+- Admin chỉ được xử lý các yêu cầu có trạng thái "Chờ xử lý"
+- Admin có thể chấp nhận hoặc từ chối yêu cầu đổi trả
+- Khi admin xử lý, trạng thái yêu cầu phải được cập nhật
+- Mỗi yêu cầu chỉ được xử lý một lần
+- Admin có thể xem chi tiết sản phẩm trong yêu cầu đổi trả
+
+## Business Logic (Admin xử lý yêu cầu bảo hành)
+- Admin đăng nhập vào hệ thống quản trị
+- Hệ thống hiển thị danh sách yêu cầu đổi trả
+- Admin chọn một yêu cầu cần xử lý
+- Hệ thống hiển thị chi tiết yêu cầu (đơn hàng, sản phẩm, lý do)
+- Admin chọn hành động "Chấp nhận" hoặc "Từ chối"
+- Nếu admin chọn "Chấp nhận"
+- Hệ thống cập nhật trạng thái thành "Đã chấp nhận"
+- Nếu admin chọn "Từ chối"
+- Admin nhập lý do từ chối
+- Hệ thống cập nhật trạng thái thành "Đã từ chối"
+- Hệ thống lưu thông tin người xử lý và thời gian xử lý
+- Sau khi xử lý, yêu cầu không được chỉnh sửa lại
+
+
+
+
+## Sơ đồ tuần tự - Warranty Request (User Story 3)
+
+### Warranty Request - Happy Path: Gửi yêu cầu đổi trả thành công
+```text
+Người dùng          Form yêu cầu           Web routes        WarrantyRequestController      CSDL
+    |               bảo hành               |                    |                          |
+    | Truy cập /warranty/request            |                    |                          |
+    |------------------->|                 |                    |                          |
+    | Xem form + chọn đơn hàng (4 ngày)    |                    |                          |
+    |------------------->|                 |                    |                          |
+    |                    | GET /warranty/request                 |                          |
+    |                    |----------------->|                    |                          |
+    |                    |                    | create()         |                          |
+    |                    |                    | Mock orders      |                          |
+    |                    |                    | Load view        |                          |
+    |                    | Render form       |<------------------|                          |
+    |<-------------------|                 |                    |                          |
+    |                    |                    |                    |                          |
+    | Chọn sản phẩm (min 1) + nhập lý do (min 10 ký tự)        |                          |
+    | Nhấn "Gửi yêu cầu"  |                 |                    |                          |
+    |------------------->|                 |                    |                          |
+    |                    | POST /warranty/request                |                          |
+    |                    |----------------->|                    |                          |
+    |                    |                    | store()          |                          |
+    |                    |                    | - Validate       |                          |
+    |                    |                    | - Check expired? |                          |
+    |                    |                    | - Check invalid? |                          |
+    |                    |                    | Tạo record       |                          |
+    |                    |                    |----------------->|                          |
+    |                    |                    |                    | INSERT warranty_requests |
+    |                    |                    |                    |<------------------------|
+    |                    |                    | Redirect success |                          |
+    |                    | Redirect /warranty/success             |                          |
+    |<-------------------|                 |                    |                          |
+    | "Yêu cầu bảo hành đã gửi              |                    |                          |
+    | Trạng thái: Chờ xử lý"                |                    |                          |
+```
+
+### Warranty Request - Unhappy Path: Đơn hàng quá thời gian đổi trả
+```text
+Người dùng          Form yêu cầu           Web routes        WarrantyRequestController      CSDL
+    |               bảo hành               |                    |                          |
+    | Chọn đơn hàng (15 ngày trước)         |                    |                          |
+    | Chọn sản phẩm + nhập lý do            |                    |                          |
+    | Nhấn "Gửi yêu cầu"  |                 |                    |                          |
+    |------------------->|                 |                    |                          |
+    |                    | POST /warranty/request                |                          |
+    |                    |----------------->|                    |                          |
+    |                    |                    | store()          |                          |
+    |                    |                    | - Validate       |                          |
+    |                    |                    | - orderIsExpired()                          |
+    |                    |                    | - Kiểm tra: 15 > 7 ngày                     |
+    |                    |                    | Trả error        |                          |
+    |                    | Redirect back + Error                 |                          |
+    |<-------------------|                 |                    |                          |
+    | Hiển thị thông báo:                   |                    |                          |
+    | "Đơn hàng đã hết thời gian đổi trả"  |                    |                          |
+    | Form vẫn giữ dữ liệu cũ               |                    |                          |
+    |                    |                    | Yêu cầu KHÔNG được tạo |                  |
+```
+
+### Warranty Request - Unhappy Path: Đơn hàng không hợp lệ (hủy)
+```text
+Người dùng          Form yêu cầu           Web routes        WarrantyRequestController      CSDL
+    |               bảo hành               |                    |                          |
+    | Chọn đơn hàng (status: cancelled)     |                    |                          |
+    | Chọn sản phẩm + nhập lý do            |                    |                          |
+    | Nhấn "Gửi yêu cầu"  |                 |                    |                          |
+    |------------------->|                 |                    |                          |
+    |                    | POST /warranty/request                |                          |
+    |                    |----------------->|                    |                          |
+    |                    |                    | store()          |                          |
+    |                    |                    | - Validate       |                          |
+    |                    |                    | - orderIsInvalid()                          |
+    |                    |                    | - Kiểm tra status !== 'delivered'           |
+    |                    |                    | Trả error        |                          |
+    |                    | Redirect back + Error                 |                          |
+    |<-------------------|                 |                    |                          |
+    | Hiển thị thông báo:                   |                    |                          |
+    | "Đơn hàng không đủ điều kiện đổi trả"|                    |                          |
+    |                    |                    | Yêu cầu KHÔNG được tạo |                  |
+```
+
+### Warranty Request - Unhappy Path: Chưa chọn sản phẩm
+```text
+Người dùng          Form yêu cầu           Web routes        WarrantyRequestController      CSDL
+    |               bảo hành               |                    |                          |
+    | Không chọn sản phẩm                  |                    |                          |
+    | Nhập lý do + Nhấn "Gửi yêu cầu"      |                    |                          |
+    |------------------->|                 |                    |                          |
+    |                    | POST /warranty/request                |                          |
+    |                    |----------------->|                    |                          |
+    |                    |                    | store()          |                          |
+    |                    |                    | Validate:        |                          |
+    |                    |                    | products.required |                         |
+    |                    |                    | products.min:1   |                          |
+    |                    |                    | FAILED           |                          |
+    |                    | Redirect back + Error                 |                          |
+    |<-------------------|                 |                    |                          |
+    | Hiển thị thông báo:                   |                    |                          |
+    | "Vui lòng chọn sản phẩm cần đổi trả" |                    |                          |
+    |                    |                    | Yêu cầu KHÔNG được tạo |                  |
+```
+
+### Warranty Request - Unhappy Path: Chưa nhập lý do
+```text
+Người dùng          Form yêu cầu           Web routes        WarrantyRequestController      CSDL
+    |               bảo hành               |                    |                          |
+    | Chọn sản phẩm nhưng không nhập lý do  |                    |                          |
+    | Nhấn "Gửi yêu cầu"  |                 |                    |                          |
+    |------------------->|                 |                    |                          |
+    |                    | POST /warranty/request                |                          |
+    |                    |----------------->|                    |                          |
+    |                    |                    | store()          |                          |
+    |                    |                    | Validate:        |                          |
+    |                    |                    | reason.required  |                          |
+    |                    |                    | reason.min:10    |                          |
+    |                    |                    | FAILED           |                          |
+    |                    | Redirect back + Error                 |                          |
+    |<-------------------|                 |                    |                          |
+    | Hiển thị thông báo:                   |                    |                          |
+    | "Vui lòng nhập lý do đổi trả"        |                    |                          |
+    | Focus vào textarea lý do              |                    |                          |
+    |                    |                    | Yêu cầu KHÔNG được tạo |                  |
+```
+
+### Warranty Request - View List: Xem danh sách yêu cầu bảo hành
+```text
+Người dùng          Browser               Web routes        WarrantyRequestController      CSDL
+    |                   |                    |                    |                          |
+    | Truy cập /warranty/requests            |                    |                          |
+    |------------------->|                 |                    |                          |
+    |                    | GET /warranty/requests                |                          |
+    |                    |----------------->|                    |                          |
+    |                    |                    | index()          |                          |
+    |                    |                    | - Lấy auth user  |                          |
+    |                    |                    | SELECT * WHERE user_id = auth_user          |
+    |                    |                    |----------------->|                          |
+    |                    |                    |                    | Trả danh sách requests  |
+    |                    |                    |<-----------------|                          |
+    |                    |                    | Render view      |                          |
+    |                    | Table danh sách   |<------------------|                          |
+    |<-------------------|                 |                    |                          |
+    | - ID, Đơn hàng, Sản phẩm             |                    |                          |
+    | - Trạng thái, Ngày tạo               |                    |                          |
+    | - Link "Xem chi tiết"                |                    |                          |
+```
+
+### Warranty Request - View Detail: Xem chi tiết yêu cầu bảo hành
+```text
+Người dùng          Browser               Web routes        WarrantyRequestController      CSDL
+    |                   |                    |                    |                          |
+    | Click "Xem chi tiết" (request #5)     |                    |                          |
+    |------------------->|                 |                    |                          |
+    |                    | GET /warranty/requests/5              |                          |
+    |                    |----------------->|                    |                          |
+    |                    |                    | show(#5)         |                          |
+    |                    |                    | - Check auth     |                          |
+    |                    |                    | - Check user_id  |                          |
+    |                    |                    | SELECT * FROM warranty_requests WHERE id=5  |
+    |                    |                    |----------------->|                          |
+    |                    |                    |                    | Trả warranty request    |
+    |                    |                    |<-----------------|                          |
+    |                    |                    | Render view      |                          |
+    |                    | Chi tiết request |<------------------|                          |
+    |<-------------------|                 |                    |                          |
+    | - ID, Đơn hàng, Trạng thái          |                    |                          |
+    | - Danh sách sản phẩm, Lý do          |                    |                          |
+    | - Timeline lịch sử, Nút hành động    |                    |                          |
+```
+

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WarrantyRequestController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
@@ -20,6 +21,11 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/warranty/request', [WarrantyRequestController::class, 'create'])->name('warranty.request');
+    Route::post('/warranty/request', [WarrantyRequestController::class, 'store']);
+    Route::get('/warranty/success', [WarrantyRequestController::class, 'success'])->name('warranty.success');
+    Route::get('/warranty/requests', [WarrantyRequestController::class, 'index'])->name('warranty.index');
+    Route::get('/warranty/requests/{warrantyRequest}', [WarrantyRequestController::class, 'show'])->name('warranty.show');
 });
 
 Route::prefix('admin')
